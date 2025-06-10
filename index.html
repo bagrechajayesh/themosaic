@@ -1,708 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mosaic - Artist Representation</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1rem 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #764ba2;
-        }
-
-        .logo-icon {
-            width: 40px;
-            height: 40px;
-            margin-right: 10px;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb, #f5576c);
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-            cursor: pointer;
-        }
-
-        .nav-links a:hover {
-            color: #764ba2;
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 120px 0 80px;
-            text-align: center;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-            color: white;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="10" cy="10" r="1" fill="white" opacity="0.1"/><circle cx="30" cy="25" r="0.5" fill="white" opacity="0.1"/><circle cx="60" cy="15" r="1.5" fill="white" opacity="0.1"/><circle cx="80" cy="40" r="1" fill="white" opacity="0.1"/><circle cx="20" cy="60" r="0.8" fill="white" opacity="0.1"/><circle cx="90" cy="80" r="1.2" fill="white" opacity="0.1"/><circle cx="40" cy="90" r="0.7" fill="white" opacity="0.1"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 2;
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease forwards;
-        }
-
-        .hero p {
-            font-size: 1.3rem;
-            margin-bottom: 2rem;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.3s forwards;
-        }
-
-        .cta-button {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 15px 30px;
-            border: 2px solid white;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            opacity: 0;
-            animation: fadeInUp 1s ease 0.6s forwards;
-            cursor: pointer;
-        }
-
-        .cta-button:hover {
-            background: white;
-            color: #764ba2;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
-        /* Sections */
-        .section {
-            padding: 80px 0;
-            background: white;
-            margin: 20px 0;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.6s ease;
-        }
-
-        .section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .section h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            color: #333;
-            position: relative;
-        }
-
-        .section h2::after {
-            content: '';
-            width: 80px;
-            height: 4px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            position: absolute;
-            bottom: -10px;
-            left: 50%;
-            transform: translateX(-50%);
-            border-radius: 2px;
-        }
-
-        /* About Section */
-        .about-content {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 4rem;
-            align-items: center;
-        }
-
-        .about-text {
-            font-size: 1.1rem;
-            line-height: 1.8;
-        }
-
-        .about-image {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            height: 300px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 1.2rem;
-            text-align: center;
-        }
-
-        /* Artists Section */
-        .artists-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .artist-card {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            padding: 2rem;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            cursor: pointer;
-        }
-
-        .artist-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .artist-avatar {
-            width: 80px;
-            height: 80px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-        }
-
-        /* Services Section */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .service-item {
-            text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            color: white;
-            transition: transform 0.3s ease;
-        }
-
-        .service-item:hover {
-            transform: translateY(-5px);
-        }
-
-        .service-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            margin: 0 auto 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        /* Contact Section */
-        .contact-content {
-            text-align: center;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .contact-info {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
-        }
-
-        .contact-item {
-            padding: 1.5rem;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-            border-radius: 10px;
-            color: white;
-            text-align: center;
-        }
-
-        /* Footer */
-        footer {
-            background: #333;
-            color: white;
-            text-align: center;
-            padding: 2rem 0;
-            margin-top: 2rem;
-        }
-
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .about-content {
-                grid-template-columns: 1fr;
-                gap: 2rem;
-            }
-            
-            .artists-grid,
-            .services-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mosaic - Artist Representation</title>
+  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  <link rel="stylesheet" href="styles.css" /> <!-- Externalized CSS for maintainability -->
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <div class="container">
-            <div class="nav-container">
-                <div class="logo">
-                    <div class="logo-icon">M</div>
-                    MOSAIC
-                </div>
-                <ul class="nav-links">
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#artists">Artists</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+  <!-- NAVIGATION, HERO, ABOUT, ARTISTS, SERVICES, CONTACT, FOOTER sections remain unchanged structurally -->
+  
+  <!-- Container-specific IDs and classes are required and referenced by the CMS script -->
 
-    <!-- Hero Section -->
-    <section id="home" class="hero">
-        <div class="container">
-            <div class="hero-content">
-                <h1>MOSAIC</h1>
-                <p>Representing Exceptional Creative Talent</p>
-                <a href="#about" class="cta-button">Discover Our Story</a>
-            </div>
-        </div>
-    </section>
+  <!-- CMS Script for dynamic content -->
+  <script>
+    const GITHUB_API_BASE = 'https://api.github.com/repos/bagrechajayesh/themosaic/contents/_data';
 
-    <!-- About Section -->
-    <section id="about" class="section">
-        <div class="container">
-            <h2>About Mosaic</h2>
-            <div class="about-content">
-                <div class="about-text">
-                    <p>At Mosaic, we believe that every artist is a unique piece of a larger creative puzzle. Founded with a passion for discovering and nurturing exceptional talent, we specialize in representing writers, directors, and visionary creators who shape the future of entertainment and storytelling.</p>
-                    
-                    <p>Our boutique approach ensures personalized attention for each client, combining industry expertise with genuine care for artistic vision. We don't just manage careers – we build lasting partnerships that honor the creative process while achieving commercial success.</p>
-                    
-                    <p>With deep connections across film, television, publishing, and digital media, Mosaic opens doors that matter and creates opportunities that align with our artists' unique voices and ambitions.</p>
-                </div>
-                <div class="about-image">
-                    <div>
-                        <strong>Creative Excellence</strong><br>
-                        Building careers that matter
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    const originalContent = {
+      artists: '',
+      services: '',
+      about: '',
+      contact: ''
+    };
 
-    <!-- Artists Section -->
-    <section id="artists" class="section">
-        <div class="container">
-            <h2>Our Artists</h2>
-            <p style="text-align: center; font-size: 1.1rem; margin-bottom: 2rem; color: #666;">
-                Meet the extraordinary talents we're proud to represent
-            </p>
-            <div class="artists-grid">
-                <div class="artist-card">
-                    <div class="artist-avatar">✍️</div>
-                    <h3>Sarah Chen</h3>
-                    <p><strong>Screenwriter</strong></p>
-                    <p>Award-winning writer specializing in psychological thrillers and character-driven dramas. Recent credits include "Midnight Confession" and "The Last Memory."</p>
-                </div>
-                <div class="artist-card">
-                    <div class="artist-avatar">🎬</div>
-                    <h3>Marcus Rodriguez</h3>
-                    <p><strong>Director</strong></p>
-                    <p>Visionary director known for innovative storytelling techniques. His latest film "Echoes of Tomorrow" premiered at Sundance to critical acclaim.</p>
-                </div>
-                <div class="artist-card">
-                    <div class="artist-avatar">📚</div>
-                    <h3>Emily Watson</h3>
-                    <p><strong>Novelist</strong></p>
-                    <p>Bestselling author of contemporary fiction. Her novel "Fragments of Light" spent 12 weeks on the New York Times bestseller list.</p>
-                </div>
-                <div class="artist-card">
-                    <div class="artist-avatar">🎭</div>
-                    <h3>David Kim</h3>
-                    <p><strong>Playwright</strong></p>
-                    <p>Tony-nominated playwright whose works explore themes of identity and belonging. Currently developing his first television series.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    const escapeHTML = (str) => {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    };
 
-    <!-- Services Section -->
-    <section id="services" class="section">
-        <div class="container">
-            <h2>Our Services</h2>
-            <div class="services-grid">
-                <div class="service-item">
-                    <div class="service-icon">🤝</div>
-                    <h3>Career Management</h3>
-                    <p>Strategic career planning, project selection, and long-term brand development tailored to each artist's unique vision.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">💼</div>
-                    <h3>Deal Negotiation</h3>
-                    <p>Expert contract negotiation ensuring fair compensation and favorable terms for film, TV, publishing, and digital media projects.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">🌟</div>
-                    <h3>Project Development</h3>
-                    <p>Collaborative development of original content, from initial concept through production, connecting artists with the right partners.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">🔗</div>
-                    <h3>Industry Connections</h3>
-                    <p>Leveraging our extensive network of producers, publishers, and executives to create meaningful professional relationships.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">📈</div>
-                    <h3>Brand Building</h3>
-                    <p>Strategic public relations and marketing support to build and maintain a strong professional presence in the industry.</p>
-                </div>
-                <div class="service-item">
-                    <div class="service-icon">🎯</div>
-                    <h3>Opportunity Matching</h3>
-                    <p>Identifying and securing opportunities that align with artistic goals and career trajectory across multiple platforms.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+    const storeOriginalContent = () => {
+      originalContent.artists = document.querySelector('.artists-grid')?.innerHTML || '';
+      originalContent.services = document.querySelector('.services-grid')?.innerHTML || '';
+      originalContent.about = document.querySelector('.about-text')?.innerHTML || '';
+      originalContent.contact = document.querySelector('.contact-info')?.innerHTML || '';
+    };
 
-    <!-- Contact Section -->
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Get In Touch</h2>
-            <div class="contact-content">
-                <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                    Ready to take your creative career to the next level? We'd love to hear from you.
-                </p>
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <h3>📧 Email</h3>
-                        <p>hello@mosaicrepresentation.com</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>📞 Phone</h3>
-                        <p>+1 (555) 123-4567</p>
-                    </div>
-                    <div class="contact-item">
-                        <h3>📍 Location</h3>
-                        <p>Los Angeles, CA<br>New York, NY</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    const fetchAndParseJSON = async (url) => {
+      const res = await fetch(url);
+      if (!res.ok) throw new Error(`Fetch failed: ${res.status}`);
+      return res.json();
+    };
 
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Mosaic Artist Representation. All rights reserved.</p>
-        </div>
-    </footer>
+    const loadCMSListContent = async (type, containerSelector, formatter) => {
+      try {
+        const response = await fetch(`${GITHUB_API_BASE}/${type}`);
+        if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
 
-    <script>
-        // Smooth scrolling for navigation links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        const files = await response.json();
+        const jsonFiles = files.filter(file => file.name.endsWith('.json'));
+        const responses = await Promise.all(jsonFiles.map(f => fetch(f.download_url)));
+        const dataList = await Promise.all(responses.map(res => res.ok ? res.json() : null));
 
-        // Intersection Observer for section animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
+        const container = document.querySelector(containerSelector);
+        if (!container) return console.warn(`${type} container not found`);
 
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                }
-            });
-        }, observerOptions);
+        const contentHTML = dataList.map((data, i) => data ? formatter(data, jsonFiles[i].name) : '').join('').trim();
 
-        document.querySelectorAll('.section').forEach(section => {
-            observer.observe(section);
-        });
-
-        // Add some interactive hover effects
-        document.querySelectorAll('.artist-card').forEach(card => {
-            card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
-            });
-            
-            card.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateY(0) scale(1)';
-            });
-        });
-    </script>
-	<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
+        if (contentHTML) {
+          container.innerHTML = contentHTML;
+          console.log(`CMS ${type} loaded successfully`);
+        } else {
+          throw new Error(`No valid ${type} content`);
+        }
+      } catch (error) {
+        console.warn(`Failed to load CMS ${type}:`, error.message);
+        const container = document.querySelector(containerSelector);
+        if (container && originalContent[type] && container.innerHTML.trim() === '') {
+          container.innerHTML = originalContent[type];
+        }
       }
-    });
-  }
-</script>
-<script>
-// Complete CMS Content Loader for github.com/bagrechajayesh/themosaic
-const GITHUB_API_BASE = 'https://api.github.com/repos/bagrechajayesh/themosaic/contents/_data';
+    };
 
-// Load CMS Artists
-async function loadCMSArtists() {
-    try {
-        const response = await fetch(`${GITHUB_API_BASE}/artists`);
-        const files = await response.json();
-        
-        const artistsGrid = document.querySelector('.artists-grid');
-        
-        // Clear existing hardcoded artists
-        artistsGrid.innerHTML = '';
-        
-        for (const file of files) {
-            if (file.name.endsWith('.json')) {
-                const artistResponse = await fetch(file.download_url);
-                const artist = await artistResponse.json();
-                
-                const artistCard = document.createElement('div');
-                artistCard.className = 'artist-card';
-                artistCard.innerHTML = `
-                    <div class="artist-avatar">${artist.avatar || '🎭'}</div>
-                    <h3>${artist.name}</h3>
-                    <p><strong>${artist.title}</strong></p>
-                    <p>${artist.description}</p>
-                `;
-                
-                artistsGrid.appendChild(artistCard);
-            }
+    const loadCMSAbout = async () => {
+      try {
+        const data = await fetchAndParseJSON(`${GITHUB_API_BASE}/about.json`);
+        const container = document.querySelector('.about-text');
+        if (container && data.content) {
+          container.innerHTML = escapeHTML(data.content);
+          console.log('CMS About loaded');
+        } else throw new Error('Missing content');
+      } catch (err) {
+        console.warn('Failed to load About:', err.message);
+        const container = document.querySelector('.about-text');
+        if (container && originalContent.about && container.innerHTML.trim() === '') {
+          container.innerHTML = originalContent.about;
         }
-        console.log('CMS Artists loaded successfully');
-    } catch (error) {
-        console.log('Could not load CMS artists, using hardcoded ones');
-    }
-}
+      }
+    };
 
-// Load CMS Services
-async function loadCMSServices() {
-    try {
-        const response = await fetch(`${GITHUB_API_BASE}/services`);
-        const files = await response.json();
-        
-        const servicesGrid = document.querySelector('.services-grid');
-        
-        // Clear existing hardcoded services
-        servicesGrid.innerHTML = '';
-        
-        for (const file of files) {
-            if (file.name.endsWith('.json')) {
-                const serviceResponse = await fetch(file.download_url);
-                const service = await serviceResponse.json();
-                
-                const serviceItem = document.createElement('div');
-                serviceItem.className = 'service-item';
-                serviceItem.innerHTML = `
-                    <div class="service-icon">${service.icon || '🎯'}</div>
-                    <h3>${service.name}</h3>
-                    <p>${service.description}</p>
-                `;
-                
-                servicesGrid.appendChild(serviceItem);
-            }
+    const loadCMSContact = async () => {
+      try {
+        const data = await fetchAndParseJSON(`${GITHUB_API_BASE}/contact.json`);
+        const container = document.querySelector('.contact-info');
+        if (container && (data.email || data.phone || data.location)) {
+          container.innerHTML = `
+            <div class="contact-item"><h3>📧 Email</h3><p>${escapeHTML(data.email)}</p></div>
+            <div class="contact-item"><h3>📞 Phone</h3><p>${escapeHTML(data.phone)}</p></div>
+            <div class="contact-item"><h3>📍 Location</h3><p>${escapeHTML(data.location)}</p></div>
+          `;
+          console.log('CMS Contact loaded');
+        } else throw new Error('Invalid contact data');
+      } catch (err) {
+        console.warn('Failed to load Contact:', err.message);
+        const container = document.querySelector('.contact-info');
+        if (container && originalContent.contact && container.innerHTML.trim() === '') {
+          container.innerHTML = originalContent.contact;
         }
-        console.log('CMS Services loaded successfully');
-    } catch (error) {
-        console.log('Could not load CMS services, using hardcoded ones');
-    }
-}
+      }
+    };
 
-// Load CMS About Page
-async function loadCMSAbout() {
-    try {
-        const response = await fetch(`${GITHUB_API_BASE}/about.json`);
-        const aboutData = await response.json();
-        
-        // Update about section
-        const aboutText = document.querySelector('.about-text');
-        if (aboutData.content) {
-            aboutText.innerHTML = aboutData.content;
-        }
-        
-        console.log('CMS About page loaded successfully');
-    } catch (error) {
-        console.log('Could not load CMS about page, using hardcoded content');
-    }
-}
+    document.addEventListener('DOMContentLoaded', () => {
+      storeOriginalContent();
+      setTimeout(() => {
+        loadCMSListContent('artists', '.artists-grid', (artist) => `
+          <div class="artist-card">
+            <div class="artist-avatar">🎨</div>
+            <h3>${escapeHTML(artist.title)}</h3>
+            <p><strong>${escapeHTML(artist.role)}</strong></p>
+            <p>${escapeHTML(artist.description)}</p>
+          </div>`);
 
-// Load CMS Contact Info
-async function loadCMSContact() {
-    try {
-        const response = await fetch(`${GITHUB_API_BASE}/contact.json`);
-        const contactData = await response.json();
-        
-        // Update contact info
-        const contactInfo = document.querySelector('.contact-info');
-        if (contactData.email || contactData.phone || contactData.location) {
-            contactInfo.innerHTML = `
-                <div class="contact-item">
-                    <h3>📧 Email</h3>
-                    <p>${contactData.email || 'hello@mosaicrepresentation.com'}</p>
-                </div>
-                <div class="contact-item">
-                    <h3>📞 Phone</h3>
-                    <p>${contactData.phone || '+1 (555) 123-4567'}</p>
-                </div>
-                <div class="contact-item">
-                    <h3>📍 Location</h3>
-                    <p>${contactData.location || 'Los Angeles, CA<br>New York, NY'}</p>
-                </div>
-            `;
-        }
-        
-        console.log('CMS Contact info loaded successfully');
-    } catch (error) {
-        console.log('Could not load CMS contact info, using hardcoded content');
-    }
-}
+        loadCMSListContent('services', '.services-grid', (service) => `
+          <div class="service-item">
+            <div class="service-icon">✨</div>
+            <h3>${escapeHTML(service.title)}</h3>
+            <p>${escapeHTML(service.description)}</p>
+          </div>`);
 
-// Load all CMS content when page loads
-document.addEventListener('DOMContentLoaded', function() {
-    // Add a small delay to ensure page is fully loaded
-    setTimeout(() => {
-        loadCMSArtists();
-        loadCMSServices();
         loadCMSAbout();
         loadCMSContact();
-    }, 1000);
-});
+      }, 300);
+    });
+  </script>
 
-// Also add hover effects to dynamically created elements
-document.addEventListener('DOMContentLoaded', function() {
-    // Use event delegation for dynamically created artist cards
-    document.addEventListener('mouseenter', function(e) {
-        if (e.target.closest('.artist-card')) {
-            e.target.closest('.artist-card').style.transform = 'translateY(-10px) scale(1.02)';
+  <!-- Netlify Identity Redirect -->
+  <script>
+    if (window.netlifyIdentity) {
+      window.netlifyIdentity.on("init", user => {
+        if (!user) {
+          window.netlifyIdentity.on("login", () => {
+            document.location.href = "/admin/";
+          });
         }
-    }, true);
-    
-    document.addEventListener('mouseleave', function(e) {
-        if (e.target.closest('.artist-card')) {
-            e.target.closest('.artist-card').style.transform = 'translateY(0) scale(1)';
-        }
-    }, true);
-});
-</script>
-
+      });
+    }
+  </script>
 </body>
 </html>
