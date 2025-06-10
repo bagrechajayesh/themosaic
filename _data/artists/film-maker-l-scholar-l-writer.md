@@ -1,6 +1,7 @@
 ---
 name: Arvind Sivakumaran
-title: Film maker l Scholar l Writer
+title: Arvind Siva
+role: Film maker l Scholar l Writer
 description: >
   Arvind is a film-maker/film scholar. 
 
