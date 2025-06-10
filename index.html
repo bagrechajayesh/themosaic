@@ -556,5 +556,152 @@
     });
   }
 </script>
+// Add this complete script to your index.html before closing </body> tag
+// Replace YOUR_USERNAME and YOUR_REPO_NAME with your actual GitHub details
+
+const GITHUB_API_BASE = 'https://api.github.com/repos/bagrechajayesh/themosaic/contents/_data';
+
+// Load CMS Artists
+async function loadCMSArtists() {
+    try {
+        const response = await fetch(`${GITHUB_API_BASE}/artists`);
+        const files = await response.json();
+        
+        const artistsGrid = document.querySelector('.artists-grid');
+        
+        // Clear existing hardcoded artists
+        artistsGrid.innerHTML = '';
+        
+        for (const file of files) {
+            if (file.name.endsWith('.json')) {
+                const artistResponse = await fetch(file.download_url);
+                const artist = await artistResponse.json();
+                
+                const artistCard = document.createElement('div');
+                artistCard.className = 'artist-card';
+                artistCard.innerHTML = `
+                    <div class="artist-avatar">${artist.avatar || '🎭'}</div>
+                    <h3>${artist.name}</h3>
+                    <p><strong>${artist.title}</strong></p>
+                    <p>${artist.description}</p>
+                `;
+                
+                artistsGrid.appendChild(artistCard);
+            }
+        }
+        console.log('CMS Artists loaded successfully');
+    } catch (error) {
+        console.log('Could not load CMS artists, using hardcoded ones');
+    }
+}
+
+// Load CMS Services
+async function loadCMSServices() {
+    try {
+        const response = await fetch(`${GITHUB_API_BASE}/services`);
+        const files = await response.json();
+        
+        const servicesGrid = document.querySelector('.services-grid');
+        
+        // Clear existing hardcoded services
+        servicesGrid.innerHTML = '';
+        
+        for (const file of files) {
+            if (file.name.endsWith('.json')) {
+                const serviceResponse = await fetch(file.download_url);
+                const service = await serviceResponse.json();
+                
+                const serviceItem = document.createElement('div');
+                serviceItem.className = 'service-item';
+                serviceItem.innerHTML = `
+                    <div class="service-icon">${service.icon || '🎯'}</div>
+                    <h3>${service.name}</h3>
+                    <p>${service.description}</p>
+                `;
+                
+                servicesGrid.appendChild(serviceItem);
+            }
+        }
+        console.log('CMS Services loaded successfully');
+    } catch (error) {
+        console.log('Could not load CMS services, using hardcoded ones');
+    }
+}
+
+// Load CMS About Page
+async function loadCMSAbout() {
+    try {
+        const response = await fetch(`${GITHUB_API_BASE}/about.json`);
+        const aboutData = await response.json();
+        
+        // Update about section
+        const aboutText = document.querySelector('.about-text');
+        if (aboutData.content) {
+            aboutText.innerHTML = aboutData.content;
+        }
+        
+        console.log('CMS About page loaded successfully');
+    } catch (error) {
+        console.log('Could not load CMS about page, using hardcoded content');
+    }
+}
+
+// Load CMS Contact Info
+async function loadCMSContact() {
+    try {
+        const response = await fetch(`${GITHUB_API_BASE}/contact.json`);
+        const contactData = await response.json();
+        
+        // Update contact info
+        const contactInfo = document.querySelector('.contact-info');
+        if (contactData.email || contactData.phone || contactData.location) {
+            contactInfo.innerHTML = `
+                <div class="contact-item">
+                    <h3>📧 Email</h3>
+                    <p>${contactData.email || 'hello@mosaicrepresentation.com'}</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📞 Phone</h3>
+                    <p>${contactData.phone || '+1 (555) 123-4567'}</p>
+                </div>
+                <div class="contact-item">
+                    <h3>📍 Location</h3>
+                    <p>${contactData.location || 'Los Angeles, CA<br>New York, NY'}</p>
+                </div>
+            `;
+        }
+        
+        console.log('CMS Contact info loaded successfully');
+    } catch (error) {
+        console.log('Could not load CMS contact info, using hardcoded content');
+    }
+}
+
+// Load all CMS content when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // Add a small delay to ensure page is fully loaded
+    setTimeout(() => {
+        loadCMSArtists();
+        loadCMSServices();
+        loadCMSAbout();
+        loadCMSContact();
+    }, 1000);
+});
+
+// Also add hover effects to dynamically created elements
+document.addEventListener('DOMContentLoaded', function() {
+    // Use event delegation for dynamically created artist cards
+    document.addEventListener('mouseenter', function(e) {
+        if (e.target.closest('.artist-card')) {
+            e.target.closest('.artist-card').style.transform = 'translateY(-10px) scale(1.02)';
+        }
+    }, true);
+    
+    document.addEventListener('mouseleave', function(e) {
+        if (e.target.closest('.artist-card')) {
+            e.target.closest('.artist-card').style.transform = 'translateY(0) scale(1)';
+        }
+    }, true);
+});
 </body>
 </html>
