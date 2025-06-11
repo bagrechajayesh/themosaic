@@ -182,7 +182,6 @@
         }
 
         /* About Section */
-        
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -207,10 +206,41 @@
             text-align: center;
         }
 
+        /* Founder Section */
+        .founder-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            align-items: start;
+            margin-top: 2rem;
+        }
+
+        .founder-image {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 250px;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .founder-bio {
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+
+        .founder-bio h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
         /* Artists Section */
         .artists-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 2rem;
         }
@@ -219,27 +249,103 @@
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             padding: 2rem;
             border-radius: 15px;
-            text-align: center;
             color: white;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
         }
 
         .artist-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+        }
+
+        .artist-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
         }
 
         .artist-avatar {
-            width: 80px;
-            height: 80px;
+            width: 60px;
+            height: 60px;
             background: rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            margin: 0 auto 1rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 2rem;
+            font-size: 1.5rem;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .artist-name-role {
+            flex: 1;
+        }
+
+        .artist-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .artist-role {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .artist-bio {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .bio-preview {
+            display: block;
+        }
+
+        .bio-full {
+            display: none;
+            margin-top: 1rem;
+        }
+
+        .bio-full.expanded {
+            display: block;
+        }
+
+        .bio-full h4 {
+            margin: 1rem 0 0.5rem 0;
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .bio-full ul {
+            margin: 0.5rem 0;
+            padding-left: 1.2rem;
+        }
+
+        .bio-full li {
+            margin-bottom: 0.3rem;
+            font-size: 0.9rem;
+        }
+
+        .expand-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .expand-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
         }
 
         /* Services Section */
@@ -328,7 +434,8 @@
                 display: none;
             }
             
-            .about-content {
+            .about-content,
+            .founder-content {
                 grid-template-columns: 1fr;
                 gap: 2rem;
             }
@@ -336,6 +443,20 @@
             .artists-grid,
             .services-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .artist-card {
+                padding: 1.5rem;
+            }
+
+            .artist-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .artist-avatar {
+                margin-right: 0;
+                margin-bottom: 1rem;
             }
         }
     </style>
@@ -352,6 +473,7 @@
                 <ul class="nav-links">
                     <li><a href="#home">Home</a></li>
                     <li><a href="#about">About</a></li>
+                    <li><a href="#founder">Founder</a></li>
                     <li><a href="#artists">Artists</a></li>
                     <li><a href="#services">Services</a></li>
                     <li><a href="#contact">Contact</a></li>
@@ -393,6 +515,30 @@
         </div>
     </section>
 
+    <!-- Founder Section -->
+    <section id="founder" class="section">
+        <div class="container">
+            <h2>Meet Our Founder</h2>
+            <div class="founder-content">
+                <div class="founder-image">
+                    JB
+                </div>
+                <div class="founder-bio">
+                    <h3>Jayesh Bagrecha</h3>
+                    <p><strong>Founder & Literary Agent</strong></p>
+                    
+                    <p>Jayesh brings a unique blend of legal expertise, business acumen, and creative passion to literary representation. With a background in law and business, he transitioned into the entertainment industry with a deep understanding of both the creative and commercial aspects of storytelling.</p>
+                    
+                    <p>His approach combines strategic career planning with genuine appreciation for artistic vision, helping writers navigate the complex landscape of modern entertainment while maintaining their creative integrity.</p>
+                    
+                    <p>Jayesh's expertise spans script development, deal negotiation, and industry networking, with a particular focus on identifying and nurturing emerging talent in the rapidly evolving media landscape.</p>
+                    
+                    <p><strong>Contact:</strong> jayesh@themosaic.pro | +91 7276789555</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Artists Section -->
     <section id="artists" class="section">
         <div class="container">
@@ -402,33 +548,96 @@
             </p>
             <div class="artists-grid">
                 <div class="artist-card">
-                    <div class="artist-avatar">✍️</div>
-                    <h3>Arvind Sivakumaran</h3>
-                    <p><strong>Film maker - Scholar - Writer</strong></p>
-                    <p>Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002.  He also holds a degree in English Literature from St. Xaviers College, Mumbai.
-
-His screenplay “Middle of Nowhere”  was shortlisted for the Quarter-finals of the Nicholl (Academy of Motion Pictures Science and Arts A.M.P.A.S) Fellowship, Hollywood California. It was one of only 368 scripts that were selected from 7197 submitted entries.
-His short film " J'aurais Toujous Paris (I'll Always Have Paris) " was in THE VIEWING ROOM at IFFI (International Film Festival Of India) 2016. It also won 'BEST FILM NOIR SHORT" at TOP SHORTS 2017, an international online festival. It was also nominated for Best Editing at the International Horror Movie Awards 2016. https://www.youtube.com/watch?v=fREmhLq_y-w&t=234s.
-Has been a Guest lecturer in Film with a focus on American film and editing/sound at St. Xaviers College Mumbai during 2004 - 05 and at M.E.T. (Mumbai Educational Trust) during 2011-16.
-Film Curator and facilitator for the Sunaparanta Center for the Arts, Altinho, Goa during 2016-19.
-Senior Development Executive and Writer, Culture Machine Studios during 2020-21.
-His original noir play “My Funny Valentine” won the Best Play award at Thespo 2000, an annual theatre Festival in Mumbai.
-</p>
+                    <div class="artist-header">
+                        <div class="artist-avatar">✍️</div>
+                        <div class="artist-name-role">
+                            <h3>Arvind Sivakumaran</h3>
+                            <div class="artist-role">Film maker • Scholar • Writer</div>
+                        </div>
+                    </div>
+                    <div class="artist-bio">
+                        <div class="bio-preview">
+                            Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002. He also holds a degree in English Literature from St. Xaviers College, Mumbai. His screenplay "Middle of Nowhere" was shortlisted for the Quarter-finals of the Nicholl Fellowship...
+                        </div>
+                        <div class="bio-full" id="arvind-full">
+                            <h4>Education & Background</h4>
+                            <ul>
+                                <li>Film Production graduate, Victoria Motion Picture School, B.C., Canada (2002)</li>
+                                <li>Degree in English Literature, St. Xaviers College, Mumbai</li>
+                            </ul>
+                            
+                            <h4>Notable Achievements</h4>
+                            <ul>
+                                <li>Screenplay "Middle of Nowhere" shortlisted for Nicholl Fellowship Quarter-finals (368 selected from 7,197 entries)</li>
+                                <li>Short film "J'aurais Toujous Paris" featured at IFFI 2016 Viewing Room</li>
+                                <li>Won "Best Film Noir Short" at TOP SHORTS 2017</li>
+                                <li>Nominated for Best Editing at International Horror Movie Awards 2016</li>
+                                <li>Original noir play "My Funny Valentine" won Best Play at Thespo 2000</li>
+                            </ul>
+                            
+                            <h4>Professional Experience</h4>
+                            <ul>
+                                <li>Guest Lecturer in Film, St. Xaviers College Mumbai (2004-05)</li>
+                                <li>Guest Lecturer, M.E.T. Mumbai Educational Trust (2011-16)</li>
+                                <li>Film Curator, Sunaparanta Center for the Arts, Goa (2016-19)</li>
+                                <li>Senior Development Executive & Writer, Culture Machine Studios (2020-21)</li>
+                            </ul>
+                        </div>
+                        <button class="expand-btn" onclick="toggleBio('arvind')">Read More</button>
+                    </div>
                 </div>
+
                 <div class="artist-card">
-                    <div class="artist-avatar">🎬</div>
-                    <h3>Vinay Choudary </h3>
-                    <p><strong> Writer - Script and Continuity Department - Director </strong></p>
-                    <p>Vinay Choudary is a versatile and accomplished Indian screenwriter, director, and script consultant with a dynamic body of work across television, film, and digital platforms. With over 1,000 episodes of television, two feature films, and a web series for Amazon Prime Video to his credit, Vinay brings both depth and range to every story he tells.
-
-He first gained industry recognition with the cult crime thriller Johnny Gaddaar (2007), where he played a pivotal role in story development alongside director Sriram Raghavan. His early television success with the iconic youth drama Hip Hip Hurray (1998–1999) paved the way for an impactful career in narrative design. His credits span a range of popular TV series, including Jassi Jaisi Koi Nahin, Left Right Left, Jhoome Jiya Re, 12/24 Karol Bagh, Jugni Chali Jalandhar, and Khotey Sikkey—showcasing his versatility across youth-focused, family, and crime genres.
-
-Vinay is also the creator and writer of the upcoming drama series Ma KaSum, which is currently in production. Additionally, he is developing two television sitcoms for the South African broadcaster MNet and a young adult web series for Amazon Prime Video.
-
-Beyond writing, Vinay has held key leadership roles, including his recent tenure as Head of Development at Culture Machine Studios. He holds a Master’s degree in Screenwriting from Victoria University of Wellington, New Zealand, and an MFA in Film Production from the University of Ohio, USA. In 2012, he won the prestigious Embassy David Carson-Parker Award for Scriptwriting for his screenplay The Bloody Mulligans. His directorial debut short film, The Cut, premiered at the Athens International Film and Video Festival in 2017.
-
-A hands-on storyteller with a global outlook, Vinay continues to bring emotional resonance, narrative innovation, and creative leadership to every project he undertakes—making him a valuable asset to any production.</div>
-                
+                    <div class="artist-header">
+                        <div class="artist-avatar">🎬</div>
+                        <div class="artist-name-role">
+                            <h3>Vinay Choudary</h3>
+                            <div class="artist-role">Writer • Director • Script Consultant</div>
+                        </div>
+                    </div>
+                    <div class="artist-bio">
+                        <div class="bio-preview">
+                            Vinay Choudary is a versatile and accomplished Indian screenwriter, director, and script consultant with a dynamic body of work across television, film, and digital platforms. With over 1,000 episodes of television, two feature films, and a web series for Amazon Prime Video...
+                        </div>
+                        <div class="bio-full" id="vinay-full">
+                            <h4>Career Highlights</h4>
+                            <ul>
+                                <li>Over 1,000 episodes of television content</li>
+                                <li>Two feature films</li>
+                                <li>Web series for Amazon Prime Video</li>
+                                <li>Story development for cult thriller "Johnny Gaddaar" (2007)</li>
+                            </ul>
+                            
+                            <h4>Notable TV Series</h4>
+                            <ul>
+                                <li>Hip Hip Hurray (1998-1999) - Iconic youth drama</li>
+                                <li>Jassi Jaisi Koi Nahin</li>
+                                <li>Left Right Left</li>
+                                <li>12/24 Karol Bagh</li>
+                                <li>Jugni Chali Jalandhar</li>
+                                <li>Khotey Sikkey</li>
+                            </ul>
+                            
+                            <h4>Current & Upcoming Projects</h4>
+                            <ul>
+                                <li>Creator and writer of drama series "Ma KaSum" (in production)</li>
+                                <li>Two television sitcoms for South African broadcaster MNet</li>
+                                <li>Young adult web series for Amazon Prime Video</li>
+                            </ul>
+                            
+                            <h4>Education & Recognition</h4>
+                            <ul>
+                                <li>Master's in Screenwriting, Victoria University of Wellington, New Zealand</li>
+                                <li>MFA in Film Production, University of Ohio, USA</li>
+                                <li>Embassy David Carson-Parker Award for Scriptwriting (2012) - "The Bloody Mulligans"</li>
+                                <li>Former Head of Development, Culture Machine Studios</li>
+                            </ul>
+                        </div>
+                        <button class="expand-btn" onclick="toggleBio('vinay')">Read More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
     <!-- Services Section -->
@@ -539,13 +748,27 @@ A hands-on storyteller with a global outlook, Vinay continues to bring emotional
         // Add some interactive hover effects
         document.querySelectorAll('.artist-card').forEach(card => {
             card.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateY(-10px) scale(1.02)';
+                this.style.transform = 'translateY(-5px) scale(1.02)';
             });
             
             card.addEventListener('mouseleave', function() {
                 this.style.transform = 'translateY(0) scale(1)';
             });
         });
+
+        // Toggle bio function
+        function toggleBio(artistId) {
+            const fullBio = document.getElementById(artistId + '-full');
+            const button = event.target;
+            
+            if (fullBio.classList.contains('expanded')) {
+                fullBio.classList.remove('expanded');
+                button.textContent = 'Read More';
+            } else {
+                fullBio.classList.add('expanded');
+                button.textContent = 'Read Less';
+            }
+        }
     </script>
 </body>
 </html>
