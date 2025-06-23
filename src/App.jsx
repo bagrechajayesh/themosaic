@@ -47,7 +47,7 @@ const App = () => {
       avatar: '🎥',
       role: 'Filmmaker • Copywriter',
       bio:
-        'Steven has 20 years of experience in film, broadcast, and ad marketing. Co-creator of Canada's first 3D stop-motion short "Skeleton Girl", and writer of "Middle of Nowhere" and "Lily"...'
+        'Steven has 20 years of experience in film, broadcast, and ad marketing. Co-creator of Canada\'s first 3D stop-motion short "Skeleton Girl", and writer of "Middle of Nowhere" and "Lily"...'
     },
   ];
 
