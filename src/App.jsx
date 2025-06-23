@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Users, TrendingUp, Scale, Phone, Mail, MapPin, ExternalLink, User, Home } from 'lucide-react';
+import {
+  Users,
+  TrendingUp,
+  Scale,
+  Phone,
+  Mail,
+  MapPin,
+  ExternalLink,
+  User,
+  Home,
+} from 'lucide-react';
 
 const App = () => {
   const [activeTab, setActiveTab] = useState('home');
@@ -7,11 +17,11 @@ const App = () => {
   const [expandedService, setExpandedService] = useState({});
 
   const toggleBio = (index) => {
-    setShowFullBio(prev => ({ ...prev, [index]: !prev[index] }));
+    setShowFullBio((prev) => ({ ...prev, [index]: !prev[index] }));
   };
 
-  const toggleService = (index) => {
-    setExpandedService(prev => ({ ...prev, [index]: !prev[index] }));
+  const toggleService = (key) => {
+    setExpandedService((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   const artists = [
@@ -19,44 +29,68 @@ const App = () => {
       name: 'Arvind Sivakumaran',
       avatar: '✍️',
       role: 'Filmmaker • Scholar • Writer',
-      bio: 'Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002. He also holds a degree in English Literature from St. Xaviers College, Mumbai. His screenplay "Middle of Nowhere" was shortlisted for the Nicholl Fellowship. He’s worked as a guest lecturer, writer, curator and senior executive in media organizations.'
+      bio:
+        'Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002. He also holds a degree in English Literature from St. Xaviers College, Mumbai...'
     },
     {
       name: 'Vinay Choudary',
       avatar: '🎬',
       role: 'Writer • Director • Script Consultant',
-      bio: 'Vinay is a versatile Indian screenwriter and director with 1000+ TV episodes, feature films, and a Prime Video web series. He’s known for his work on "Hip Hip Hurray", "Johnny Gaddaar" development, and is currently developing projects for India and South Africa.'
+      bio:
+        'Vinay is a versatile Indian screenwriter and director with 1000+ TV episodes, feature films, and a Prime Video web series...'
     },
     {
       name: 'Steven Hanulik',
       avatar: '🎥',
       role: 'Filmmaker • Copywriter',
-      bio: 'Steven has 20 years of experience in film, broadcast, and ad marketing. Co-creator of Canada’s first 3D stop-motion short "Skeleton Girl", he’s won awards and written acclaimed screenplays like "Middle of Nowhere" and "Lily". He’s also a sought-after marketing copywriter and contributor to publications like Optimum.'
-    }
+      bio:
+        'Steven has 20 years of experience in film, broadcast, and ad marketing. Co-creator of Canada’s first 3D stop-motion short "Skeleton Girl", and writer of "Middle of Nowhere" and "Lily"...'
+    },
   ];
 
   const entertainmentServices = [
-    "Career Management",
-    "Deal Negotiation",
-    "Project Development",
-    "Industry Connections",
-    "Brand Building",
-    "Opportunity Matching"
+    'Career Management',
+    'Deal Negotiation',
+    'Project Development',
+    'Industry Connections',
+    'Brand Building',
+    'Opportunity Matching',
   ];
 
   const growthServices = [
-    "Soft Skills Training",
-    "Mental Health Seminars",
-    "Professional Development",
-    "Executive Coaching"
+    'Soft Skills Training',
+    'Mental Health Seminars',
+    'Professional Development',
+    'Executive Coaching',
   ];
 
   const legalServices = [
-    "MSME Advisory Services",
-    "RERA Compliance",
-    "Corporate Legal Support",
-    "Entertainment Law"
+    'MSME Advisory Services',
+    'RERA Compliance',
+    'Corporate Legal Support',
+    'Entertainment Law',
   ];
+
+  const renderServices = (services) => (
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {services.map((service, idx) => (
+        <div key={service} className="bg-white rounded-xl shadow p-6">
+          <h3 className="font-semibold text-lg">{service}</h3>
+          <p className="text-sm text-gray-600 mt-2">
+            {expandedService[service]
+              ? `Comprehensive support and expertise in ${service.toLowerCase()}.`
+              : `Consulting and guidance on ${service.toLowerCase()}.`}
+          </p>
+          <button
+            onClick={() => toggleService(service)}
+            className="mt-2 text-sm text-blue-600 hover:underline"
+          >
+            {expandedService[service] ? 'Show Less' : 'Show More'}
+          </button>
+        </div>
+      ))}
+    </div>
+  );
 
   const renderSection = () => {
     switch (activeTab) {
@@ -74,8 +108,8 @@ const App = () => {
           <section className="py-12">
             <h2 className="text-3xl font-bold text-center mb-10">Our Artists</h2>
             <div className="grid gap-6 md:grid-cols-2">
-              {artists.map((artist, index) => (
-                <div key={index} className="bg-white rounded-xl shadow p-6">
+              {artists.map((artist, i) => (
+                <div key={i} className="bg-white rounded-xl shadow p-6">
                   <div className="flex items-center gap-4">
                     <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-xl">{artist.avatar}</div>
                     <div>
@@ -84,91 +118,33 @@ const App = () => {
                     </div>
                   </div>
                   <p className="mt-4 text-gray-700 text-sm">
-                    {showFullBio[index]
-                      ? artist.bio
-                      : artist.bio.length > 180
-                      ? artist.bio.slice(0, 180) + '...'
-                      : artist.bio}
-                  </p>
-                  {artist.bio.length > 180 && (
-                    <button
-                      onClick={() => toggleBio(index)}
-                      className="mt-2 text-sm text-blue-600 hover:underline"
-                    >
-                      {showFullBio[index] ? 'Read Less' : 'Read More'}
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            <h2 className="text-3xl font-bold text-center mt-16 mb-8">Entertainment Services</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {entertainmentServices.map((service, index) => (
-                <div key={index} className="bg-white rounded-xl shadow p-6">
-                  <h3 className="font-semibold text-lg">{service}</h3>
-                  <p className="text-sm text-gray-600 mt-2">
-                    {expandedService[service]
-                      ? `Comprehensive support for ${service.toLowerCase()} including planning, outreach, and ongoing development.`
-                      : `Strategic guidance on ${service.toLowerCase()}.`}
+                    {showFullBio[i] ? artist.bio : artist.bio.slice(0, 180) + '...'}
                   </p>
                   <button
-                    onClick={() => toggleService(service)}
+                    onClick={() => toggleBio(i)}
                     className="mt-2 text-sm text-blue-600 hover:underline"
                   >
-                    {expandedService[service] ? 'Show Less' : 'Show More'}
+                    {showFullBio[i] ? 'Read Less' : 'Read More'}
                   </button>
                 </div>
               ))}
             </div>
+            <h2 className="text-3xl font-bold text-center mt-16 mb-8">Entertainment Services</h2>
+            {renderServices(entertainmentServices)}
           </section>
         );
       case 'growth':
         return (
           <section className="py-12">
             <h2 className="text-3xl font-bold text-center mb-10">Growth Services</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {growthServices.map((service, index) => (
-                <div key={index} className="bg-white rounded-xl shadow p-6">
-                  <h3 className="font-semibold text-lg">{service}</h3>
-                  <p className="text-sm text-gray-600 mt-2">
-                    {expandedService[service]
-                      ? `In-depth programs and coaching for ${service.toLowerCase()}.`
-                      : `Supportive training and advisory on ${service.toLowerCase()}.`}
-                  </p>
-                  <button
-                    onClick={() => toggleService(service)}
-                    className="mt-2 text-sm text-blue-600 hover:underline"
-                  >
-                    {expandedService[service] ? 'Show Less' : 'Show More'}
-                  </button>
-                </div>
-              ))}
-            </div>
+            {renderServices(growthServices)}
           </section>
         );
       case 'legal':
         return (
           <section className="py-12">
             <h2 className="text-3xl font-bold text-center mb-10">Legal Services</h2>
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {legalServices.map((service, index) => (
-                <div key={index} className="bg-white rounded-xl shadow p-6">
-                  <h3 className="font-semibold text-lg">{service}</h3>
-                  <p className="text-sm text-gray-600 mt-2">
-                    {expandedService[service]
-                      ? `End-to-end legal guidance for ${service.toLowerCase()}, tailored to client needs.`
-                      : `Consulting for ${service.toLowerCase()}.`}
-                  </p>
-                  <button
-                    onClick={() => toggleService(service)}
-                    className="mt-2 text-sm text-blue-600 hover:underline"
-                  >
-                    {expandedService[service] ? 'Show Less' : 'Show More'}
-                  </button>
-                </div>
-              ))}
-            </div>
+            {renderServices(legalServices)}
           </section>
         );
       case 'about':
@@ -189,7 +165,6 @@ const App = () => {
 
   return (
     <div className="bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100 min-h-screen">
-      {/* Header */}
       <header className="bg-white border-b shadow">
         <div className="max-w-7xl mx-auto px-6 py-6 text-center">
           <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-600">The Mosaic</h1>
@@ -197,4 +172,63 @@ const App = () => {
         </div>
       </header>
 
-      {/* Navigation */}
+      <nav className="bg-white sticky top-0 z-10 shadow">
+        <div className="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-center gap-4">
+          {[
+            { id: 'home', label: 'Home', icon: Home },
+            { id: 'entertainment', label: 'Entertainment', icon: Users },
+            { id: 'growth', label: 'Growth', icon: TrendingUp },
+            { id: 'legal', label: 'Legal', icon: Scale },
+            { id: 'about', label: 'About Us', icon: User },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium ${
+                activeTab === tab.id
+                  ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                  : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              <tab.icon className="w-5 h-5" />
+              {tab.label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{renderSection()}</main>
+
+      <section className="bg-white mt-20 py-16">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
+          <p className="text-lg text-gray-600 mb-10">Ready to take your career to the next level? We'd love to hear from you.</p>
+          <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+            <div className="text-center p-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-xl text-white">
+              <Mail className="w-8 h-8 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">Email</h3>
+              <p>jayesh@themosaic.pro</p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl text-white">
+              <Phone className="w-8 h-8 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">Phone</h3>
+              <p className="flex justify-center items-center gap-2">
+                +91 7276789555
+                <a href="https://wa.me/917276789555" target="_blank" rel="noopener noreferrer">
+                  <ExternalLink className="w-5 h-5" />
+                </a>
+              </p>
+            </div>
+            <div className="text-center p-6 bg-gradient-to-br from-green-500 to-emerald-500 rounded-xl text-white">
+              <MapPin className="w-8 h-8 mx-auto mb-4" />
+              <h3 className="font-semibold mb-2">Location</h3>
+              <p>Mumbai, Maharashtra<br />India</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+};
+
+export default App;
