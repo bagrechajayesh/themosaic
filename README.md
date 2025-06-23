@@ -1,2 +1,0 @@
-# themosaic
-For my website
