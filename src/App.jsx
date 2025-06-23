@@ -99,8 +99,14 @@ const App = () => {
           <section className="text-center max-w-3xl mx-auto py-12">
             <h2 className="text-3xl font-bold mb-4">About Mosaic</h2>
             <p className="text-lg text-gray-700">
-              Mosaic is a boutique talent platform focused on connecting independent creators with production houses, brands, and studios. We simplify the collaboration process and empower artistic storytelling.
-            </p>
+  Mosaic is a boutique platform dedicated to enabling exceptional talent and empowering purposeful growth across three key verticals:
+  <br /><br />
+  <strong>Entertainment</strong> – Representing independent creators including filmmakers, writers, and performers by connecting them to production houses and studios.
+  <br />
+  <strong>Growth</strong> – Providing leadership coaching, wellness programs, and development services for professionals and organizations.
+  <br />
+  <strong>Legal</strong> – Offering legal and compliance services tailored for creatives, startups, and businesses in evolving industries.
+</p>
           </section>
         );
       case 'entertainment':
@@ -183,7 +189,10 @@ const App = () => {
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
+              onClick={() => {
+              setActiveTab(tab.id);
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
               className={`flex items-center gap-2 px-4 py-2 rounded-full font-medium ${
                 activeTab === tab.id
                   ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
@@ -198,6 +207,19 @@ const App = () => {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">{renderSection()}</main>
+<a
+  href="https://wa.me/917276789555"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white px-4 py-3 rounded-full shadow-lg flex items-center gap-2"
+  title="Chat with us on WhatsApp"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 21l1.5-5.25a9 9 0 1115.75-5.75A9 9 0 013 21z" />
+  </svg>
+  Let’s Talk
+</a>
+
 
       <section className="bg-white mt-20 py-16">
         <div className="max-w-7xl mx-auto px-4 text-center">
@@ -232,3 +254,4 @@ const App = () => {
 };
 
 export default App;
+
