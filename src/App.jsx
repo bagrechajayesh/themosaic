@@ -65,6 +65,64 @@ const App = () => {
     </div>
   );
 
+  const renderContentBySection = () => {
+    switch (activeSection) {
+      case 'about':
+        return renderAboutSection();
+      case 'entertainment':
+        return (
+          <>
+            {renderAboutMosaic()}
+            <div className="grid gap-6 md:grid-cols-1 lg:grid-cols-2">
+              {/* Sample artist card structure */}
+              <div className="bg-white rounded-xl shadow p-6">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center text-xl font-bold">✍️</div>
+                  <div>
+                    <h3 className="text-lg font-semibold">Arvind Sivakumaran</h3>
+                    <p className="text-sm text-gray-500">Filmmaker • Scholar • Writer</p>
+                  </div>
+                </div>
+                <p className="mt-4 text-gray-700 text-sm">Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002...</p>
+              </div>
+            </div>
+          </>
+        );
+      case 'growth':
+        return (
+          <>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="font-semibold text-lg">Soft Skills Training</h3>
+                <p className="text-sm text-gray-600 mt-2">Leadership programs focusing on communication, emotional intelligence, and team building.</p>
+              </div>
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="font-semibold text-lg">Executive Coaching</h3>
+                <p className="text-sm text-gray-600 mt-2">One-on-one coaching for professionals to enhance leadership effectiveness and impact.</p>
+              </div>
+            </div>
+          </>
+        );
+      case 'legal':
+        return (
+          <>
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="font-semibold text-lg">Corporate Legal Support</h3>
+                <p className="text-sm text-gray-600 mt-2">Business incorporation, contract drafting, and compliance management services.</p>
+              </div>
+              <div className="bg-white rounded-xl shadow p-6">
+                <h3 className="font-semibold text-lg">Entertainment Law</h3>
+                <p className="text-sm text-gray-600 mt-2">Legal services for talent contracts, IP protection, and production deals.</p>
+              </div>
+            </div>
+          </>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 via-gray-200 to-gray-100">
       <header className="bg-gray-50 shadow-sm border-b border-gray-200">
@@ -110,14 +168,7 @@ const App = () => {
       </nav>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        {activeSection === 'about' ? (
-          renderAboutSection()
-        ) : (
-          <>
-            {renderAboutMosaic()}
-            {/* ... existing vertical content rendering ... */}
-          </>
-        )}
+        {renderContentBySection()}
       </main>
 
       <section className="bg-gray-50 mt-20 py-16">
