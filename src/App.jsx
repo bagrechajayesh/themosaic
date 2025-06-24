@@ -150,7 +150,14 @@ const App = () => {
 
             {/* Three Pillars */}
             <div className="grid md:grid-cols-3 gap-8 mb-16">
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 p-8 text-center group opacity-0 animate-fadeInUp" style={{animationDelay: '400ms', animationFillMode: 'forwards'}}>
+              <div 
+                onClick={() => {
+                  setActiveTab('entertainment');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 p-8 text-center group opacity-0 animate-fadeInUp cursor-pointer" 
+                style={{animationDelay: '400ms', animationFillMode: 'forwards'}}
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Sparkles className="w-8 h-8 text-white" />
                 </div>
@@ -163,7 +170,14 @@ const App = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 p-8 text-center group opacity-0 animate-fadeInUp" style={{animationDelay: '600ms', animationFillMode: 'forwards'}}>
+              <div 
+                onClick={() => {
+                  setActiveTab('growth');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 p-8 text-center group opacity-0 animate-fadeInUp cursor-pointer" 
+                style={{animationDelay: '600ms', animationFillMode: 'forwards'}}
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Target className="w-8 h-8 text-white" />
                 </div>
@@ -176,7 +190,14 @@ const App = () => {
                 </div>
               </div>
 
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 p-8 text-center group opacity-0 animate-fadeInUp" style={{animationDelay: '800ms', animationFillMode: 'forwards'}}>
+              <div 
+                onClick={() => {
+                  setActiveTab('legal');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-3 p-8 text-center group opacity-0 animate-fadeInUp cursor-pointer" 
+                style={{animationDelay: '800ms', animationFillMode: 'forwards'}}
+              >
                 <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <Shield className="w-8 h-8 text-white" />
                 </div>  
@@ -203,7 +224,13 @@ const App = () => {
       case 'entertainment':
         return (
           <section className="py-12 transition-all duration-500 ease-in-out">
-            <h2 className="text-3xl font-bold text-center mb-10">Our Artists</h2>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Entertainment</h2>
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Representing independent creators including filmmakers, writers, and performers by connecting them to production houses and studios.
+              </p>
+            </div>
+            <h3 className="text-2xl font-bold text-center mb-10">Our Artists</h3>
             <div className="grid gap-6 md:grid-cols-2">
               {artists.map((artist, i) => (
                 <div 
@@ -236,14 +263,26 @@ const App = () => {
       case 'growth':
         return (
           <section className="py-12 transition-all duration-500 ease-in-out">
-            <h2 className="text-3xl font-bold text-center mb-10">Growth Services</h2>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Growth</h2>
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Providing leadership coaching, wellness programs, and development services for professionals and organizations.
+              </p>
+            </div>
+            <h3 className="text-2xl font-bold text-center mb-10">Growth Services</h3>
             {renderServices(growthServices)}
           </section>
         );
       case 'legal':
         return (
           <section className="py-12 transition-all duration-500 ease-in-out">
-            <h2 className="text-3xl font-bold text-center mb-10">Legal Services</h2>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl font-bold mb-4">Legal</h2>
+              <p className="text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                Offering legal and compliance services tailored for creatives, startups, and businesses in evolving industries.
+              </p>
+            </div>
+            <h3 className="text-2xl font-bold text-center mb-10">Legal Services</h3>
             {renderServices(legalServices)}
           </section>
         );
