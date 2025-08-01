@@ -15,9 +15,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/entertainment" element={<Entertainment />} />
-        <Route path="/entertainment/arvind-sivakumaran" element={<ArvindSivakumaran />} />
-        <Route path="/entertainment/vinay-choudary" element={<VinayChoudary />} />
-        <Route path="/entertainment/steven-hanulik" element={<StevenHanulik />} />
+        <Route path="/entertainment/ArvindSivakumaran" element={<ArvindSivakumaran />} />
+        <Route path="/entertainment/VinayChoudary" element={<VinayChoudary />} />
+        <Route path="/entertainment/StevenHanulik" element={<StevenHanulik />} />
         <Route path="/" element={<Entertainment />} />
 	<Route path="/growth" element={<Growth />} />
 	<Route path="/legal" element={<Legal />} />
