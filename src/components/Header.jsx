@@ -1,9 +1,3 @@
-// src/components/Header.jsx
-import React, { useState } from 'react';
-import { Menu, X, Home, Settings, Mail, Info } from 'lucide-react';
-
-const Header = () => {
-  // ... (the complete header component code)
 import React, { useState } from 'react';
 import { Menu, X, Home, Settings, Mail, Info } from 'lucide-react';
 
@@ -131,9 +125,6 @@ const Header = () => {
       </div>
     </header>
   );
-};
-
-export default Header;
 };
 
 export default Header;
