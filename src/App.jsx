@@ -11,7 +11,6 @@ import StevenHanulik from "./pages/entertainment/StevenHanulik";
 import Growth from "./pages/Growth";
 import Legal from "./pages/Legal";
 
-
 function App() {
   return (
     <Router>
