@@ -10,7 +10,7 @@ import VinayChoudary from "./pages/entertainment/VinayChoudary";
 import StevenHanulik from "./pages/entertainment/StevenHanulik";
 import Growth from "./pages/Growth";
 import Legal from "./pages/Legal";
-import './App.css';
+
 
 function App() {
   return (
