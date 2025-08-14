@@ -1,4 +1,4 @@
-import { FaWhatsapp } from "react-icons/fa";
+import { MessageCircle } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -33,9 +33,9 @@ export default function Footer() {
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"
-        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-colors"
+        className="fixed bottom-6 right-6 bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-colors group"
       >
-        <FaWhatsapp size={24} />
+        <MessageCircle size={24} className="group-hover:scale-110 transition-transform" />
       </a>
 
       <p className="text-center text-xs text-gray-500 mt-8">
