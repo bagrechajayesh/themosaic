@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Menu, X, Home, Settings, Mail, Info } from 'lucide-react';
+import { Menu, X, Home, Settings, Mail, Info, Briefcase, Film, Scale } from 'lucide-react';
 import { Link, NavLink } from 'react-router-dom';
-import logo from '../assets/logo.png'; // hashed by Vite for cache-busting
+import logo from '../assets/logo.png'; // cache-busted by Vite
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -9,6 +9,9 @@ const Header = () => {
   const navigationItems = [
     { name: 'Home', href: '/', icon: Home, end: true },
     { name: 'Services', href: '/services', icon: Settings },
+    { name: 'Entertainment', href: '/entertainment', icon: Film },
+    { name: 'Growth', href: '/growth', icon: Briefcase },
+    { name: 'Legal', href: '/legal', icon: Scale },
     { name: 'About', href: '/about', icon: Info },
     { name: 'Contact', href: '/contact', icon: Mail }
   ];
