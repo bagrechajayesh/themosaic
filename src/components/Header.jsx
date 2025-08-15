@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, X, Home, Settings, Mail, Info } from 'lucide-react';
+import logo from '../assets/logo.png'; // ✅ Imported from src/assets
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -21,48 +22,23 @@ const Header = () => {
         <div className="flex justify-between items-center py-4">
           {/* Logo Section */}
           <div className="flex items-center space-x-4">
-            <a href="/" className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200">
+            <a
+              href="/"
+              className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200"
+            >
               <div className="flex-shrink-0">
                 {/* Logo Image */}
-                <img 
-                  src="/logo.png" 
-                  alt="TheMosaic - Professional Services" 
+                <img
+                  src={logo}
+                  alt="The Mosaic - Professional Services"
                   className="h-12 w-12 object-contain"
-                  onError={(e) => {
-                    // Try different extensions if logo.png doesn't exist
-                    const extensions = ['svg', 'jpg', 'jpeg', 'webp'];
-                    const currentSrc = e.target.src;
-                    const basePath = currentSrc.substring(0, currentSrc.lastIndexOf('.'));
-                    const currentExt = currentSrc.substring(currentSrc.lastIndexOf('.') + 1);
-                    const nextExtIndex = extensions.indexOf(currentExt) + 1;
-                    
-                    if (nextExtIndex < extensions.length) {
-                      e.target.src = `${basePath}.${extensions[nextExtIndex]}`;
-                    } else {
-                      // Show text fallback if no logo file found
-                      e.target.style.display = 'none';
-                      e.target.nextElementSibling.style.display = 'flex';
-                    }
-                  }}
                 />
-                {/* Fallback mosaic-style logo using CSS */}
-                <div className="hidden items-center justify-center h-12 w-12 bg-gradient-to-br from-teal-600 via-orange-500 to-red-600 rounded-lg">
-                  <div className="grid grid-cols-3 gap-0.5 w-8 h-8">
-                    <div className="bg-red-700 rounded-sm"></div>
-                    <div className="bg-teal-700 rounded-sm"></div>
-                    <div className="bg-teal-600 rounded-sm"></div>
-                    <div className="bg-teal-600 rounded-sm"></div>
-                    <div className="bg-teal-700 rounded-sm"></div>
-                    <div className="bg-orange-600 rounded-sm"></div>
-                    <div className="bg-teal-600 rounded-sm"></div>
-                    <div className="bg-orange-600 rounded-sm"></div>
-                    <div className="bg-red-700 rounded-sm"></div>
-                  </div>
-                </div>
               </div>
               <div className="flex flex-col">
                 <h1 className="text-xl font-bold text-gray-900 leading-tight">THE MOSAIC</h1>
-                <p className="text-xs text-gray-600 hidden sm:block">Professional Services</p>
+                <p className="text-xs text-gray-600 hidden sm:block">
+                  Professional Services
+                </p>
               </div>
             </a>
           </div>
@@ -102,9 +78,13 @@ const Header = () => {
         </div>
 
         {/* Mobile Navigation Menu */}
-        <div className={`md:hidden transition-all duration-300 ease-in-out ${
-          isMenuOpen ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
-        }`}>
+        <div
+          className={`md:hidden transition-all duration-300 ease-in-out ${
+            isMenuOpen
+              ? 'max-h-64 opacity-100'
+              : 'max-h-0 opacity-0 overflow-hidden'
+          }`}
+        >
           <div className="py-2 space-y-1 border-t border-gray-200">
             {navigationItems.map((item) => {
               const IconComponent = item.icon;
