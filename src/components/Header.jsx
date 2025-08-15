@@ -27,16 +27,18 @@ const Header = () => {
               className="flex items-center space-x-3 hover:opacity-80 transition-opacity duration-200"
             >
               <div className="flex-shrink-0">
-                {/* Logo Image */}
+                {/* Responsive Logo Image */}
                 <img
                   src={logo}
                   alt="The Mosaic - Professional Services"
-                  className="h-12 w-12 object-contain"
+                  className="h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 object-contain"
                 />
               </div>
               <div className="flex flex-col">
-                <h1 className="text-xl font-bold text-gray-900 leading-tight">THE MOSAIC</h1>
-                <p className="text-xs text-gray-600 hidden sm:block">
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">
+                  THE MOSAIC
+                </h1>
+                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">
                   Professional Services
                 </p>
               </div>
