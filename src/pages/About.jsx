@@ -29,8 +29,8 @@ export default function About() {
           <p className="text-gray-600">Founder • Strategic Business Leader</p>
           <p className="mt-4 text-md leading-relaxed">
             With over a decade of experience in strategic business leadership, operations, and
-            transformation, Jayesh has worked across diverse industries — most notably in media,
-            retail, healthcare, and business consulting — driving customer experience, operations,
+            transformation, Jayesh has worked across diverse industries most notably in media,
+            retail, healthcare, and business consulting driving customer experience, operations,
             and service delivery. He has led high-impact projects, managed cross-functional teams,
             and partnered with senior leadership to solve complex challenges and deliver measurable
             outcomes.
@@ -38,8 +38,8 @@ export default function About() {
           <p className="mt-4 text-md leading-relaxed">
             As a certified PMP, Jayesh has successfully executed turnaround projects, introduced
             process excellence initiatives, and overseen digital transformation efforts. His
-            background includes P&amp;L ownership, team coaching, stakeholder alignment, and
-            business alliances — all led by a practical, mutually-growth and customer-first mindset.
+            background includes P&L ownership, team coaching, stakeholder management, and
+            business alliances all led by a practical, mutual growth and customer-first mindset.
           </p>
         </div>
       </motion.div>
