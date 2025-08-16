@@ -10,6 +10,7 @@ import Growth from './pages/Growth';
 import Legal from './pages/Legal';
 import About from './pages/About';
 import Contact from './pages/Contact';
+import Artist from './pages/Artist.jsx';
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
+            <Route path="/entertainment/:slug" element={<Artist />} />
             <Route path="/entertainment" element={<Entertainment />} />
             <Route path="/growth" element={<Growth />} />
             <Route path="/legal" element={<Legal />} />
