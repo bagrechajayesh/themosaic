@@ -1,28 +1,46 @@
 // src/pages/Entertainment.jsx
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+
+// Reusable image component with jpg→png→placeholder fallback
+function ArtistImage({ slug, avatar, name }) {
+  const PLACEHOLDER = "/artists/placeholder.jpg";
+  const [imgSrc, setImgSrc] = useState(`/artists/${slug}.jpg`);
+
+  const handleError = () => {
+    if (imgSrc.endsWith(".jpg")) setImgSrc(`/artists/${slug}.png`);
+    else setImgSrc(PLACEHOLDER);
+  };
+
+  return (
+    <img
+      src={imgSrc}
+      alt={name}
+      onError={handleError}
+      className="w-full h-40 object-cover rounded-lg mb-4"
+    />
+  );
+}
 
 const artists = [
   {
+    slug: "arvind-sivakumaran",
     name: "Arvind Sivakumaran",
-    avatar: "✍️",
     role: "Filmmaker • Scholar • Writer",
     bio: "Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002. He also holds a degree in English Literature from St. Xaviers College, Mumbai.",
-    link: "/entertainment/arvind-sivakumaran",
   },
   {
+    slug: "vinay-choudary",
     name: "Vinay Choudary",
-    avatar: "🎬",
     role: "Writer • Director • Script Consultant",
     bio: "Vinay is a versatile Indian screenwriter and director with 1000+ TV episodes, feature films, and a Prime Video web series.",
-    link: "/entertainment/vinay-choudary",
   },
   {
+    slug: "steven-hanulik",
     name: "Steven Hanulik",
-    avatar: "🎥",
     role: "Filmmaker • Copywriter",
     bio: "Steven has 20 years of experience in film, broadcast, and ad marketing. Co-creator of Canada's first 3D stop-motion short 'Skeleton Girl', and writer of 'Middle of Nowhere' and 'Lily'.",
-    link: "/entertainment/steven-hanulik",
   },
 ];
 
@@ -34,18 +52,17 @@ export default function Entertainment() {
       <div className="grid gap-8 md:grid-cols-3">
         {artists.map((artist, idx) => (
           <motion.div
-            key={artist.link}
+            key={artist.slug}
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: idx * 0.15 }}
             whileHover={{ scale: 1.03 }}
-            className="rounded-xl shadow-lg overflow-hidden"
+            className="rounded-xl shadow-lg overflow-hidden bg-white text-gray-900"
           >
-            <Link
-              to={artist.link}
-              className="bg-white text-gray-900 block p-6 hover:shadow-xl transition"
-            >
-              <div className="text-5xl text-center mb-4">{artist.avatar}</div>
+            <Link to={`/entertainment/${artist.slug}`} className="block p-6">
+              {/* Image with fallback */}
+              <ArtistImage slug={artist.slug} name={artist.name} />
+
               <h2 className="text-xl font-semibold text-center">{artist.name}</h2>
               <p className="text-sm text-center text-gray-500 mb-2">{artist.role}</p>
               <p className="text-sm text-gray-700 mt-4">{artist.bio}</p>
@@ -54,6 +71,7 @@ export default function Entertainment() {
         ))}
       </div>
 
+      {/* Services section */}
       <div className="mt-20">
         <h2 className="text-3xl font-bold text-center mb-8">Our Services</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
