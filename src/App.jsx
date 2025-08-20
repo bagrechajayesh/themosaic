@@ -10,7 +10,12 @@ import Growth from './pages/Growth';
 import Legal from './pages/Legal';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Artist from './pages/Artist.jsx';
+import Artist from './pages/Artist.jsx'; // Keep as fallback
+
+// Specific artist components
+import VinayChoudary from './pages/entertainment/VinayChoudary';
+import ArvindSivakumaran from './pages/entertainment/ArvindSivakumaran';
+import StevenHanulik from './pages/entertainment/StevenHanulik';
 
 export default function App() {
   return (
@@ -24,8 +29,16 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
-            <Route path="/entertainment/:slug" element={<Artist />} />
             <Route path="/entertainment" element={<Entertainment />} />
+            
+            {/* Specific artist routes - these must come BEFORE the generic route */}
+            <Route path="/entertainment/vinay-choudary" element={<VinayChoudary />} />
+            <Route path="/entertainment/arvind-sivakumaran" element={<ArvindSivakumaran />} />
+            <Route path="/entertainment/steven-hanulik" element={<StevenHanulik />} />
+            
+            {/* Generic artist route as fallback for any other artists */}
+            <Route path="/entertainment/:slug" element={<Artist />} />
+            
             <Route path="/growth" element={<Growth />} />
             <Route path="/legal" element={<Legal />} />
             <Route path="/about" element={<About />} />
