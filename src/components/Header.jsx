@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Menu, X, Home, Settings, Mail, Info, Briefcase, Film, Scale, ChevronDown } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import logo from '../assets/logo.png'; // cache-busted by Vite
+import logo from '../assets/logo.png'; // adjust if your path differs
 
 const Header = () => {
   const { pathname } = useLocation();
@@ -25,12 +25,19 @@ const Header = () => {
     };
   }, []);
 
+  // Close menus on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+    setGrowthOpen(false);
+    setGrowthOpenMobile(false);
+  }, [pathname]);
+
   // Optional prefetch to make submenu pages feel instant
   const prefetchPosh = () => import('../pages/growth/Posh');
   const prefetchComm = () => import('../pages/growth/Communication');
   const prefetchCreat = () => import('../pages/growth/Creative');
 
-  // Your existing nav items (minus Growth—we’ll render it as a dropdown)
+  // Your existing nav items (minus Growth; it’s rendered as a dropdown)
   const navigationItems = [
     { name: 'Home', href: '/', icon: Home, end: true },
     { name: 'Services', href: '/services', icon: Settings },
@@ -92,18 +99,14 @@ const Header = () => {
                 </NavLink>
               ))}
 
-            {/* Growth dropdown (desktop) */}
-            <div
-              className="relative"
-              ref={menuRef}
-              onMouseEnter={() => setGrowthOpen(true)}
-              onMouseLeave={() => setGrowthOpen(false)}
-            >
+            {/* Growth dropdown (desktop) — patched so it stays open */}
+            <div className="relative" ref={menuRef}>
               <button
                 type="button"
                 aria-haspopup="menu"
                 aria-expanded={growthOpen}
-                onClick={() => setGrowthOpen((v) => !v)}
+                onMouseEnter={() => setGrowthOpen(true)}    // open on hover
+                onClick={() => setGrowthOpen((v) => !v)}    // toggle on click
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -120,11 +123,14 @@ const Header = () => {
               {growthOpen && (
                 <div
                   role="menu"
-                  className="absolute left-0 mt-2 w-80 rounded-2xl border border-gray-100 bg-white shadow-lg p-2"
+                  className="absolute left-0 top-full z-50 mt-2 w-80 rounded-2xl border border-gray-100 bg-white shadow-lg p-2"
+                  onMouseEnter={() => setGrowthOpen(true)}  // keep open while hovering panel
+                  // no onMouseLeave; close via outside click / ESC / item click
                 >
                   <Link
                     to="/growth"
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
+                    onClick={() => setGrowthOpen(false)}
                   >
                     <div className="font-medium">Growth overview</div>
                     <div className="text-sm text-gray-600">Explore all growth services</div>
@@ -134,6 +140,7 @@ const Header = () => {
                     to="/growth/posh"
                     onMouseEnter={prefetchPosh}
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
+                    onClick={() => setGrowthOpen(false)}
                   >
                     <div className="font-medium">POSH Compliance Guidance</div>
                     <div className="text-sm text-gray-600">Policy, IC setup, awareness & audits</div>
@@ -142,6 +149,7 @@ const Header = () => {
                     to="/growth/communication"
                     onMouseEnter={prefetchComm}
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
+                    onClick={() => setGrowthOpen(false)}
                   >
                     <div className="font-medium">Effective Communication Skills</div>
                     <div className="text-sm text-gray-600">Public speaking, writing, exec presence</div>
@@ -150,6 +158,7 @@ const Header = () => {
                     to="/growth/creative"
                     onMouseEnter={prefetchCreat}
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
+                    onClick={() => setGrowthOpen(false)}
                   >
                     <div className="font-medium">Creative Thinking Workshop</div>
                     <div className="text-sm text-gray-600">Unconventional problem-solving</div>
@@ -193,7 +202,7 @@ const Header = () => {
             isMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
           }`}
         >
-          <div className="py-2 space-y-1 border-t border-gray-200">
+          <div className="py-2 space-y-1 border-top border-gray-200">
             {navigationItems
               .filter((i) => i.name !== 'Growth')
               .map(({ name, href, icon: Icon, end }) => (
