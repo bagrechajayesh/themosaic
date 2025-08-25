@@ -40,7 +40,8 @@ export default function Posh() {
             POSH Compliance Guidance
           </motion.h1>
           <motion.p {...fadeUp(0.15)} className="mt-6 max-w-3xl text-lg/8 opacity-90">
-            Comprehensive, action‑oriented POSH programs—delivered by The Mosaic <span className="opacity-80">in partnership with</span> <a href="https://yellowspark.in/posh/" target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:opacity-100 inline-flex items-center">Yellow Spark <ExternalLink className="w-4 h-4 ml-1" /></a>, a specialist in workplace harassment prevention.
+            Comprehensive, action‑oriented POSH programs—delivered by The Mosaic <span className="opacity-80">in partnership with</span> // <a href="https://yellowspark.in/posh/" target="_blank" rel="noreferrer" className="underline underline-offset-4 hover:opacity-100 inline-flex items-center"> // 
+Yellow Spark <ExternalLink className="w-4 h-4 ml-1" /></a>, a specialist in workplace harassment prevention.
           </motion.p>
           <motion.div {...fadeUp(0.3)} className="mt-8 flex flex-wrap gap-3">
             <a href="#contact" className="bg-white text-rose-700 font-semibold px-6 py-3 rounded-xl hover:bg-rose-50 transition inline-flex items-center">Request a proposal <ArrowRight className="w-5 h-5 ml-2" /></a>
