@@ -1,6 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Shield, Users, Lightbulb, ArrowRight, Target, BookOpen, Award } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
+import Posh from "@/pages/growth/Posh";
+import Communication from "@/pages/growth/Communication";
+import Creative from "@/pages/growth/Creative";
+
 
 const Growth = () => {
   const services = [
@@ -52,9 +57,9 @@ const Growth = () => {
   ];
 
   const handleServiceClick = (serviceId) => {
-    // This function will be used to navigate to individual service pages
-    console.log(`Navigate to ${serviceId} page`);
-    // You can implement routing logic here
+    <Route path="/growth/posh" element={<Posh />} />
+<Route path="/growth/communication" element={<Communication />} />
+<Route path="/growth/creative" element={<Creative />} />
   };
 
   return (
