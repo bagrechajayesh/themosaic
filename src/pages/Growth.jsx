@@ -1,273 +1,168 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Shield, Users, Lightbulb, ArrowRight, Target, BookOpen, Award } from 'lucide-react';
-import { useNavigate } from "react-router-dom";
-import Posh from "@/pages/growth/Posh";
-import Communication from "@/pages/growth/Communication";
-import Creative from "@/pages/growth/Creative";
+// src/pages/Growth.jsx
+import React, { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
+// --- Lightweight Meta helper (no extra deps) ---
+function Meta({
+  title,
+  description,
+  url,
+  image, // optional
+}) {
+  useEffect(() => {
+    const set = (selector, attr, value) => {
+      if (!value) return;
+      let el = document.head.querySelector(selector);
+      if (!el) {
+        el = document.createElement("meta");
+        if (selector.startsWith('meta[name="')) {
+          el.setAttribute("name", selector.match(/meta\[name="([^"]+)"\]/)[1]);
+        } else if (selector.startsWith('meta[property="')) {
+          el.setAttribute("property", selector.match(/meta\[property="([^"]+)"\]/)[1]);
+        }
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, value);
+    };
 
-const Growth = () => {
+    // Title
+    if (title) document.title = title;
+
+    // Standard + OpenGraph + Twitter
+    set('meta[name="description"]', "content", description);
+    set('meta[property="og:title"]', "content", title);
+    set('meta[property="og:description"]', "content", description);
+    set('meta[property="og:type"]', "content", "website");
+    set('meta[property="og:url"]', "content", url);
+    if (image) set('meta[property="og:image"]', "content", image);
+
+    set('meta[name="twitter:card"]', "content", image ? "summary_large_image" : "summary");
+    set('meta[name="twitter:title"]', "content", title);
+    set('meta[name="twitter:description"]', "content", description);
+    if (image) set('meta[name="twitter:image"]', "content", image);
+
+    // Canonical link
+    if (url) {
+      let link = document.head.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", "canonical");
+        document.head.appendChild(link);
+      }
+      link.setAttribute("href", url);
+    }
+
+    // JSON-LD (basic WebPage)
+    const ld = {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      name: title,
+      url,
+      description,
+    };
+    const script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "ld-growth";
+    script.text = JSON.stringify(ld);
+    document.head.appendChild(script);
+
+    return () => {
+      // Clean up JSON-LD on unmount to avoid duplicates during client nav
+      const s = document.getElementById("ld-growth");
+      if (s) s.remove();
+    };
+  }, [title, description, url, image]);
+
+  return null;
+}
+
+// --- Page ---
+export default function Growth() {
   const services = [
     {
-      id: 'posh',
-      title: 'POSH Compliance Guidance',
-      icon: Shield,
-      description: 'Comprehensive workplace harassment prevention training and compliance solutions delivered in partnership with Yellow Spark.',
-      image: '/api/placeholder/400/300',
-      color: 'from-red-500 to-pink-600',
-      bgColor: 'from-red-50 to-pink-50',
-      features: [
-        'Policy Development & Implementation',
-        'Internal Committee Formation & Training',
-        'Employee Awareness Programs',
-        'Legal Compliance Audit'
-      ]
+      id: "posh",
+      title: "POSH Compliance Guidance",
+      blurb: "Policies, IC setup, awareness & audits — delivered with Yellow Spark.",
+      emoji: "🛡️",
     },
     {
-      id: 'communication',
-      title: 'Effective Communication Skills',
-      icon: Users,
-      description: 'Professional communication training programs designed to enhance workplace effectiveness and leadership presence.',
-      image: '/api/placeholder/400/300',
-      color: 'from-blue-500 to-indigo-600',
-      bgColor: 'from-blue-50 to-indigo-50',
-      features: [
-        'Business English Mastery',
-        'Voice & Accent Training',
-        'Public Speaking Confidence',
-        'Executive Communication'
-      ]
+      id: "communication",
+      title: "Effective Communication Skills",
+      blurb: "Public speaking, business writing, voice & accent, executive presence.",
+      emoji: "🗣️",
     },
     {
-      id: 'creative',
-      title: 'Creative Thinking Workshop',
-      icon: Lightbulb,
-      description: 'Innovative workshops to unlock creative potential and transform problem-solving capabilities for teams and leaders.',
-      image: '/api/placeholder/400/300',
-      color: 'from-purple-500 to-violet-600',
-      bgColor: 'from-purple-50 to-violet-50',
-      features: [
-        'Design Thinking Methodology',
-        'Innovation Leadership',
-        'Problem-Solving Techniques',
-        'Team Collaboration Enhancement'
-      ]
-    }
+      id: "creative",
+      title: "Creative Thinking Workshop",
+      blurb: "Open minds, break ruts, and solve real problems with practical tools.",
+      emoji: "💡",
+    },
   ];
 
-  const handleServiceClick = (serviceId) => {
-    <Route path="/growth/posh" element={<Posh />} />
-<Route path="/growth/communication" element={<Communication />} />
-<Route path="/growth/creative" element={<Creative />} />
+  const pageMeta = {
+    title: "Growth Services | The Mosaic",
+    description:
+      "Unlock growth with POSH compliance guidance (with Yellow Spark), effective communication skills, and creative thinking workshops. Click a service to learn more.",
+    url: "https://themosaic.pro/growth",
+    // Add an OG image later if you have one, e.g. "https://themosaic.pro/og/growth.jpg"
+    image: "",
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 px-6 py-12">
+    <div className="min-h-screen bg-white text-gray-900 px-6 py-12">
+      <Meta {...pageMeta} />
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="max-w-7xl mx-auto"
+        className="max-w-6xl mx-auto"
       >
-        {/* Header Section */}
-        <div className="text-center mb-16">
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-5xl md:text-6xl font-bold bg-gradient-to-r from-gray-900 via-blue-800 to-purple-800 bg-clip-text text-transparent mb-6"
-          >
-            Growth Services
-          </motion.h1>
-          <motion.p 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
-          >
-            We empower creative businesses, start-ups, and individuals by providing strategic guidance and 
-            ecosystem connections to fuel sustainable growth through specialized training and consultation services.
-          </motion.p>
-        </div>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-6">Growth Services</h1>
+        <p className="text-lg md:text-xl text-center max-w-3xl mx-auto">
+          We empower creative businesses, start-ups, and individuals with strategic guidance,
+          skills programs, and mindset workshops to fuel sustainable growth.
+        </p>
 
-        {/* Services Grid */}
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="group relative overflow-hidden rounded-3xl bg-white shadow-xl hover:shadow-2xl transition-all duration-500 cursor-pointer"
-              onClick={() => handleServiceClick(service.id)}
+        {/* Cards */}
+        <div className="grid gap-6 md:grid-cols-3 mt-10">
+          {services.map((s, i) => (
+            <Link
+              key={s.id}
+              to={`/growth/${s.id}`}
+              aria-label={`Open ${s.title}`}
+              className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-3xl"
             >
-              {/* Background Gradient Overlay */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${service.bgColor} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-              
-              {/* Content */}
-              <div className="relative p-8 h-full flex flex-col">
-                {/* Icon */}
-                <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500`}>
-                  <service.icon className="w-10 h-10 text-white" />
-                </div>
-
-                {/* Title */}
-                <h3 className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-transparent group-hover:bg-gradient-to-r group-hover:from-gray-900 group-hover:to-blue-600 group-hover:bg-clip-text transition-all duration-500">
-                  {service.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 mb-6 leading-relaxed line-clamp-3">
-                  {service.description}
-                </p>
-
-                {/* Features */}
-                <div className="space-y-2 mb-6 flex-grow">
-                  {service.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center text-sm text-gray-600">
-                      <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${service.color} mr-3`}></div>
-                      {feature}
-                    </div>
-                  ))}
-                </div>
-
-                {/* Call to Action */}
-                <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100">
-                  <span className="text-gray-500 text-sm">Learn More</span>
-                  <div className="flex items-center text-blue-600 font-semibold group-hover:translate-x-2 transition-transform duration-300">
-                    <ArrowRight className="w-5 h-5" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Hover Animation Border */}
-              <div className={`absolute inset-0 rounded-3xl bg-gradient-to-r ${service.color} opacity-0 group-hover:opacity-20 transition-opacity duration-500`} />
-            </motion.div>
-          ))}
-        </div>
-
-        {/* Why Choose Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.8 }}
-          className="bg-white rounded-3xl shadow-xl p-12 mb-16"
-        >
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Why Choose Our Growth Services?</h2>
-            <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-              Our comprehensive approach combines expertise, innovation, and personalized solutions to drive measurable results
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-8">
-            {[
-              {
-                icon: Target,
-                title: 'Strategic Guidance',
-                description: 'Tailored strategies for sustainable growth and competitive advantage',
-                color: 'bg-blue-500'
-              },
-              {
-                icon: Users,
-                title: 'Expert Trainers',
-                description: 'Certified professionals with 20+ years of proven track records',
-                color: 'bg-green-500'
-              },
-              {
-                icon: BookOpen,
-                title: 'Customized Content',
-                description: 'Training programs designed specifically for your organizational needs',
-                color: 'bg-purple-500'
-              },
-              {
-                icon: Award,
-                title: 'Proven Results',
-                description: 'Track record of successful implementations across diverse industries',
-                color: 'bg-orange-500'
-              }
-            ].map((item, index) => (
               <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 22 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 1 + index * 0.1 }}
-                className="text-center group hover:scale-105 transition-transform duration-300"
+                transition={{ duration: 0.5, delay: i * 0.06 }}
+                whileHover={{ y: -6, scale: 1.01 }}
+                className="h-full rounded-3xl bg-white border border-gray-100 shadow-md hover:shadow-lg p-6"
               >
-                <div className={`w-16 h-16 ${item.color} rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300`}>
-                  <item.icon className="w-8 h-8 text-white" />
-                </div>
-                <h3 className="font-bold text-gray-900 mb-3 text-lg">{item.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed">{item.description}</p>
+                <div className="text-4xl mb-3">{s.emoji}</div>
+                <h3 className="text-xl font-semibold">{s.title}</h3>
+                <p className="text-gray-600 mt-2">{s.blurb}</p>
+                <span className="text-blue-600 font-medium inline-block mt-4">
+                  Open →
+                </span>
               </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.2 }}
-          className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-700 rounded-3xl text-white p-12 text-center relative overflow-hidden"
-        >
-          {/* Background Pattern */}
-          <div className="absolute inset-0 bg-black bg-opacity-10">
-            <div className="absolute inset-0" style={{
-              backgroundImage: `radial-gradient(circle at 25% 25%, white 2px, transparent 2px)`,
-              backgroundSize: '50px 50px',
-              opacity: 0.1
-            }}></div>
-          </div>
-
-          <div className="relative z-10">
-            <h2 className="text-4xl font-bold mb-6">Ready to Accelerate Your Growth?</h2>
-            <p className="text-xl mb-8 opacity-90 max-w-3xl mx-auto">
-              Partner with us to unlock your organization's potential through our comprehensive growth services and expert training programs
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-blue-600 px-8 py-4 rounded-2xl font-bold text-lg hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-lg">
-                Get Started Today
-              </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-2xl font-bold text-lg hover:bg-white hover:text-blue-600 hover:scale-105 transition-all duration-300">
-                Schedule Consultation
-              </button>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Stats Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.4 }}
-          className="grid md:grid-cols-4 gap-8 mt-16 text-center"
-        >
-          {[
-            { number: '1000+', label: 'Professionals Trained' },
-            { number: '50+', label: 'Workshops Conducted' },
-            { number: '20+', label: 'Years of Experience' },
-            { number: '95%', label: 'Client Satisfaction' }
-          ].map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 1.6 + index * 0.1 }}
-              className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300"
-            >
-              <div className="text-4xl font-bold text-transparent bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text mb-2">
-                {stat.number}
-              </div>
-              <div className="text-gray-600 font-medium">{stat.label}</div>
-            </motion.div>
+            </Link>
           ))}
-        </motion.div>
+        </div>
+
+        {/* Optional: quick highlights (kept from your earlier page) */}
+        <div className="mt-14">
+          <h2 className="text-2xl font-bold mb-4">How we help</h2>
+          <ul className="grid gap-3 md:grid-cols-2 text-base leading-7">
+            <li>📈 Business strategy & positioning</li>
+            <li>💬 Communication and executive presence</li>
+            <li>🎯 Compliance & culture programs (POSH, etc.)</li>
+            <li>💡 Creativity sprints for problem-solving</li>
+          </ul>
+        </div>
       </motion.div>
     </div>
   );
-};
-
-export default Growth;
+}
