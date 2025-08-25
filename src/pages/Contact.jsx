@@ -9,7 +9,7 @@ export default function Contact() {
           Contact Us
         </h1>
         <p className="mt-3 text-gray-600 max-w-2xl">
-          Have a question or a project in mind? Send a message here or use WhatsApp for a quick chat.
+          Have a question or a project in mind or want to collaborate? Send a message here or use WhatsApp for a quick chat.
         </p>
       </header>
 
@@ -40,21 +40,11 @@ export default function Contact() {
                 <div>
                   <div className="font-medium">Email</div>
                   <span className="text-gray-600">
-                    (Add your email here or remove this row)
+                    jayesh@themosaic.pro
                   </span>
                 </div>
               </li>
 
-              {/* Optional address row — update or remove */}
-              <li className="flex items-start gap-3">
-                <MapPin className="h-5 w-5 text-blue-600 mt-0.5" />
-                <div>
-                  <div className="font-medium">Address</div>
-                  <span className="text-gray-600">
-                    (Add your office address here or remove this row)
-                  </span>
-                </div>
-              </li>
             </ul>
 
             <a
