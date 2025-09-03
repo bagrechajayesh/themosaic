@@ -7,11 +7,7 @@
   NODE_VERSION = "18"
   NPM_VERSION = "9"
 
-# Environment variables (set these in Netlify dashboard)
-# GITHUB_TOKEN = "your_github_token_here"
-# VITE_GITHUB_TOKEN = "your_github_token_here" (fallback)
-
-# Redirect rules for SPA
+# SPA redirects for React Router
 [[redirects]]
   from = "/*"
   to = "/index.html"
@@ -32,7 +28,7 @@
 [build.processing.html]
   pretty_urls = true
 
-# Headers for performance
+# Security + caching headers
 [[headers]]
   for = "/*"
   [headers.values]
@@ -56,16 +52,8 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Form handling (for contact forms)
-[[forms]]
-  name = "contact"
-
-# Build hooks for auto-deployment when GitHub content changes
-# Note: Set up a webhook in your GitHub repo settings:
-# Payload URL: https://api.netlify.com/build_hooks/YOUR_BUILD_HOOK_ID
-# Content type: application/json
-# Events: Push (when _data folder changes)
-
-# Function for webhook validation (optional)
-[[functions]]
+# ✅ Functions must be an object, not an array
+[functions]
+  directory = "netlify/functions"      # change if your folder differs
+  node_bundler = "esbuild"
   external_node_modules = ["@octokit/rest"]
