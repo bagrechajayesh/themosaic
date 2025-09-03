@@ -4,12 +4,13 @@ import path from "node:path";
 
 const base = path.resolve("src/data");
 const files = ["artists.json", "about.json", "services.json", "contact.json", "growth.json"];
-let ok = true;
 
+let ok = true;
 for (const f of files) {
   const p = path.join(base, f);
   if (!fs.existsSync(p)) {
-    console.warn(`⚠️ Missing ${f} in src/data (generator should have created it)`);
+    console.error(`❌ Missing ${f} in src/data`);
+    ok = false;
     continue;
   }
   try {
@@ -20,5 +21,4 @@ for (const f of files) {
     console.error(`❌ ${f} invalid: ${e.message}`);
   }
 }
-
 if (!ok) process.exit(1);
