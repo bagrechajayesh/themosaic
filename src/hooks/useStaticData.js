@@ -1,125 +1,161 @@
 // src/hooks/useStaticData.js
-import { useState, useEffect } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
-// Static imports for build-time data
-import artistsData from '../data/artists.json';
-import servicesData from '../data/services.json';
-import aboutData from '../data/about.json';
-import contactData from '../data/contact.json';
-import growthData from '../data/growth.json';
+// Import JSON as raw strings (bypass vite:json)
+import artistsRaw from '../data/artists.json?raw';
+import servicesRaw from '../data/services.json?raw';
+import aboutRaw from '../data/about.json?raw';
+import contactRaw from '../data/contact.json?raw';
+import growthRaw from '../data/growth.json?raw';
 
-// Main hook for accessing static data
+// ---- helpers ----
+function safeParse(raw, fallback) {
+  try {
+    // Ensure it's a string (defensive)
+    const text = typeof raw === 'string' ? raw : String(raw ?? '');
+    return JSON.parse(text);
+  } catch (e) {
+    console.error('Failed to parse JSON:', e);
+    return fallback;
+  }
+}
+
+function slugify(s) {
+  return String(s || '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
+function lastPathSegment(p) {
+  if (!p) return '';
+  const parts = String(p).split('/');
+  return parts.filter(Boolean).pop() || '';
+}
+
+// Parse once at module load
+const ARTISTS = safeParse(artistsRaw, []);
+const SERVICES = safeParse(servicesRaw, {});
+const ABOUT = safeParse(aboutRaw, { company: {}, founder: {} });
+const CONTACT = safeParse(contactRaw, {});
+const GROWTH = safeParse(growthRaw, {});
+
+// Map for quick access
+const DATA_MAP = {
+  artists: ARTISTS,
+  services: SERVICES,
+  about: ABOUT,
+  contact: CONTACT,
+  growth: GROWTH,
+};
+
+// ---- main generic hook ----
 export function useStaticData(dataType) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Data is already available synchronously; we still expose loading/error shape
+  const [state, setState] = useState({ data: null, loading: true, error: null });
 
   useEffect(() => {
     try {
-      let result;
-      switch (dataType) {
-        case 'artists':
-          result = artistsData;
-          break;
-        case 'services':
-          result = servicesData;
-          break;
-        case 'about':
-          result = aboutData;
-          break;
-        case 'contact':
-          result = contactData;
-          break;
-        case 'growth':
-          result = growthData;
-          break;
-        default:
-          throw new Error(`Unknown data type: ${dataType}`);
+      if (!(dataType in DATA_MAP)) {
+        throw new Error(`Unknown data type: ${dataType}`);
       }
-      
-      setData(result);
-      setError(null);
+      setState({ data: DATA_MAP[dataType], loading: false, error: null });
     } catch (err) {
       console.error(`Failed to load ${dataType} data:`, err);
-      setError(err);
-      setData(null);
-    } finally {
-      setLoading(false);
+      setState({ data: null, loading: false, error: err });
     }
   }, [dataType]);
 
-  return { data, loading, error };
+  return state;
 }
 
-// Specific hooks for each data type
+// ---- specific hooks ----
 export function useArtists() {
   return useStaticData('artists');
 }
-
 export function useServices() {
   return useStaticData('services');
 }
-
 export function useAbout() {
   return useStaticData('about');
 }
-
 export function useContact() {
   return useStaticData('contact');
 }
-
 export function useGrowth() {
   return useStaticData('growth');
 }
 
-// Hook to get a specific artist by slug
+// ---- find one artist by slug/id/title/pageUrl ----
 export function useArtist(slug) {
   const [artist, setArtist] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Normalize query: accept raw slug, id, title, or last segment of pageUrl
+  const wanted = useMemo(() => {
+    const seg = lastPathSegment(slug);
+    return slugify(seg || slug);
+  }, [slug]);
+
   useEffect(() => {
     try {
-      const foundArtist = artistsData.find(a => a.slug === slug);
-      if (!foundArtist) {
+      // match by id, slug, title (slugified), or pageUrl’s last segment
+      const found = ARTISTS.find((a) => {
+        const byId = slugify(a.id) === wanted; // your JSON uses "id"
+        const bySlug = a.slug && slugify(a.slug) === wanted; // support if present
+        const byTitle = a.title && slugify(a.title) === wanted;
+        const byPage = a.pageUrl && slugify(lastPathSegment(a.pageUrl)) === wanted;
+        return byId || bySlug || byTitle || byPage;
+      });
+
+      if (!found) {
         throw new Error(`Artist not found: ${slug}`);
       }
-      setArtist(foundArtist);
+
+      setArtist(found);
       setError(null);
     } catch (err) {
       console.error(`Failed to load artist ${slug}:`, err);
-      setError(err);
       setArtist(null);
+      setError(err);
     } finally {
       setLoading(false);
     }
-  }, [slug]);
+  }, [wanted, slug]);
 
   return { artist, loading, error };
 }
 
-// Utility functions for direct access (no hooks)
+// ---- utility (non-hook) API ----
 export const staticData = {
-  artists: artistsData,
-  services: servicesData,
-  about: aboutData,
-  contact: contactData,
-  growth: growthData,
-  
-  // Helper methods
+  artists: ARTISTS,
+  services: SERVICES,
+  about: ABOUT,
+  contact: CONTACT,
+  growth: GROWTH,
+
   getArtistBySlug(slug) {
-    return this.artists.find(artist => artist.slug === slug);
+    const key = slugify(lastPathSegment(slug) || slug);
+    return ARTISTS.find((a) => {
+      const byId = slugify(a.id) === key;
+      const bySlug = a.slug && slugify(a.slug) === key;
+      const byTitle = a.title && slugify(a.title) === key;
+      const byPage = a.pageUrl && slugify(lastPathSegment(a.pageUrl)) === key;
+      return byId || bySlug || byTitle || byPage;
+    });
   },
-  
+
   getArtistsList() {
-    return this.artists;
+    return ARTISTS;
   },
-  
+
   getFeaturedArtists() {
-    return this.artists.filter(artist => artist.featured);
+    return ARTISTS.filter((a) => a.featured);
   },
-  
+
   getServicesByVertical(vertical) {
-    return this.services[vertical] || {};
-  }
+    return SERVICES?.[vertical] || {};
+  },
 };
