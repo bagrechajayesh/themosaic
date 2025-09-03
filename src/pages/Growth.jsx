@@ -2,14 +2,10 @@
 import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { useGrowth, useServices } from "../hooks/useStaticData";
 
 // --- Lightweight Meta helper (no extra deps) ---
-function Meta({
-  title,
-  description,
-  url,
-  image, // optional
-}) {
+function Meta({ title, description, url, image }) {
   useEffect(() => {
     const set = (selector, attr, value) => {
       if (!value) return;
@@ -79,7 +75,11 @@ function Meta({
 
 // --- Page ---
 export default function Growth() {
-  const services = [
+  const { data: growthData, loading: growthLoading, error: growthError } = useGrowth();
+  const { data: servicesData, loading: servicesLoading } = useServices();
+
+  // Fallback services if data loading fails
+  const services = growthData?.programs || servicesData?.growth?.services || [
     {
       id: "posh",
       title: "POSH Compliance Guidance",
@@ -105,13 +105,32 @@ export default function Growth() {
     description:
       "Unlock growth with POSH compliance guidance (with Yellow Spark), effective communication skills, and creative thinking workshops. Click a service to learn more.",
     url: "https://themosaic.pro/growth",
-    // Add an OG image later if you have one, e.g. "https://themosaic.pro/og/growth.jpg"
     image: "",
   };
+
+  if (growthLoading || servicesLoading) {
+    return (
+      <div className="min-h-screen bg-white text-gray-900 px-6 py-12 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading growth services...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white text-gray-900 px-6 py-12">
       <Meta {...pageMeta} />
+
+      {/* Error banner if data loading failed */}
+      {(growthError || !growthData) && (
+        <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-8 max-w-6xl mx-auto">
+          <p className="text-sm">
+            <strong>Note:</strong> Using cached service data. Latest updates may not be reflected.
+          </p>
+        </div>
+      )}
 
       <motion.div
         initial={{ opacity: 0, y: 30 }}
@@ -127,32 +146,39 @@ export default function Growth() {
 
         {/* Cards */}
         <div className="grid gap-6 md:grid-cols-3 mt-10">
-          {services.map((s, i) => (
-            <Link
-              key={s.id}
-              to={`/growth/${s.id}`}
-              aria-label={`Open ${s.title}`}
-              className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-3xl"
-            >
-              <motion.div
-                initial={{ opacity: 0, y: 22 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.06 }}
-                whileHover={{ y: -6, scale: 1.01 }}
-                className="h-full rounded-3xl bg-white border border-gray-100 shadow-md hover:shadow-lg p-6"
+          {Object.entries(services).map(([key, service], i) => {
+            // Handle both object format (from growthData.programs) and array format (fallback)
+            const serviceData = service.id ? service : { id: key, ...service };
+            
+            return (
+              <Link
+                key={serviceData.id || key}
+                to={`/growth/${serviceData.id || key}`}
+                aria-label={`Open ${serviceData.title}`}
+                className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 rounded-3xl"
               >
-                <div className="text-4xl mb-3">{s.emoji}</div>
-                <h3 className="text-xl font-semibold">{s.title}</h3>
-                <p className="text-gray-600 mt-2">{s.blurb}</p>
-                <span className="text-blue-600 font-medium inline-block mt-4">
-                  Open →
-                </span>
-              </motion.div>
-            </Link>
-          ))}
+                <motion.div
+                  initial={{ opacity: 0, y: 22 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.06 }}
+                  whileHover={{ y: -6, scale: 1.01 }}
+                  className="h-full rounded-3xl bg-white border border-gray-100 shadow-md hover:shadow-lg p-6"
+                >
+                  <div className="text-4xl mb-3">{serviceData.emoji || "📈"}</div>
+                  <h3 className="text-xl font-semibold">{serviceData.title}</h3>
+                  <p className="text-gray-600 mt-2">
+                    {serviceData.blurb || serviceData.description || "Strategic growth solution"}
+                  </p>
+                  <span className="text-blue-600 font-medium inline-block mt-4">
+                    Learn More →
+                  </span>
+                </motion.div>
+              </Link>
+            );
+          })}
         </div>
 
-        {/* Optional: quick highlights (kept from your earlier page) */}
+        {/* Quick highlights */}
         <div className="mt-14">
           <h2 className="text-2xl font-bold mb-4">How we help</h2>
           <ul className="grid gap-3 md:grid-cols-2 text-base leading-7">
@@ -161,6 +187,37 @@ export default function Growth() {
             <li>🎯 Compliance & culture programs (POSH, etc.)</li>
             <li>💡 Creativity sprints for problem-solving</li>
           </ul>
+        </div>
+
+        {/* Call to Action */}
+        <div className="mt-16 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-8 max-w-2xl mx-auto"
+          >
+            <h3 className="text-2xl font-bold mb-4">Ready to Accelerate Growth?</h3>
+            <p className="text-lg opacity-90 mb-6">
+              Connect with our growth specialists to explore how we can help scale your business.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                to="/contact"
+                className="px-6 py-3 bg-white text-blue-600 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Get in Touch
+              </Link>
+              <a
+                href="https://wa.me/917276789555"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition-colors"
+              >
+                WhatsApp Us
+              </a>
+            </div>
+          </motion.div>
         </div>
       </motion.div>
     </div>
