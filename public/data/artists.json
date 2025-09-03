@@ -1,0 +1,48 @@
+[
+  {
+    "id": "arvind-sivakumaran",
+    "title": "Arvind Sivakumaran",
+    "role": "Filmmaker • Scholar • Writer",
+    "description": "Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002. He also holds a degree in English Literature from St. Xavier's College, Mumbai. With a strong foundation in both technical filmmaking and literary arts, Arvind brings a unique perspective to his creative work.",
+    "image": "/artists/arvind-sivakumaran.jpg",
+    "expertise": [
+      "Film Production",
+      "Literary Analysis", 
+      "Screenwriting",
+      "Cross-Cultural Storytelling",
+      "Academic Writing",
+      "Film Theory",
+      "Narrative Structure",
+      "Creative Writing"
+    ],
+    "education": [
+      {
+        "degree": "Film Production",
+        "institution": "Victoria Motion Picture School, B.C., Canada",
+        "year": "2002"
+      },
+      {
+        "degree": "English Literature", 
+        "institution": "St. Xavier's College, Mumbai",
+        "year": ""
+      }
+    ],
+    "pageUrl": "/entertainment/ArvindSivakumaran"
+  },
+  {
+    "id": "steven-hanulik", 
+    "title": "Steven Hanulik",
+    "role": "Director",
+    "description": "Visionary director known for innovative storytelling techniques. His latest film \"Echoes of Tomorrow\" premiered at Sundance to critical acclaim.",
+    "image": "/artists/steven-hanulik.jpg",
+    "pageUrl": "/entertainment/StevenHanulik"
+  },
+  {
+    "id": "vinay-choudary",
+    "title": "Vinay Choudary", 
+    "role": "Writer",
+    "description": "Award-winning writer specializing in psychological thrillers and character-driven dramas. Recent credits include \"Midnight Confession\" and \"The Last Memory.\"",
+    "image": "/artists/vinay-choudary.jpg", 
+    "pageUrl": "/entertainment/VinayChoudary"
+  }
+]

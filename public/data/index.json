@@ -1,0 +1,18 @@
+{
+    "artists": [
+        "ArvindSivakumaran.json",
+        "StevenHanulik.json", 
+        "VinayChoudary.json"
+    ],
+    "services": [
+        "Communication.json",
+        "Creative.json",
+        "Posh.json"
+    ],
+    "pages": {
+        "about": "About.json",
+        "contact": "Contact.json",
+        "artist": "Artist.json"
+    },
+    "lastUpdated": "2025-08-26"
+}
