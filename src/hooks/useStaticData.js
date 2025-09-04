@@ -4,14 +4,13 @@ import { useEffect, useMemo, useState } from 'react';
 // Import JSON as raw strings (bypass vite:json)
 import artistsRaw from '../data/artists.json?raw';
 import servicesRaw from '../data/services.json?raw';
-import aboutRaw from '../data/about.json?raw';
+import aboutRaw   from '../data/about.json?raw';
 import contactRaw from '../data/contact.json?raw';
-import growthRaw from '../data/growth.json?raw';
+import growthRaw  from '../data/growth.json?raw';
 
 // ---- helpers ----
 function safeParse(raw, fallback) {
   try {
-    // Ensure it's a string (defensive)
     const text = typeof raw === 'string' ? raw : String(raw ?? '');
     return JSON.parse(text);
   } catch (e) {
@@ -19,47 +18,72 @@ function safeParse(raw, fallback) {
     return fallback;
   }
 }
-
-function slugify(s) {
-  return String(s || '')
+const slugify = (s) =>
+  String(s || '')
     .trim()
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/(^-|-$)/g, '');
-}
+const lastSeg = (p) => (p ? String(p).split('/').filter(Boolean).pop() : '');
 
-function lastPathSegment(p) {
-  if (!p) return '';
-  const parts = String(p).split('/');
-  return parts.filter(Boolean).pop() || '';
-}
+// ---- parse & normalize once ----
+const RAW_ARTISTS = safeParse(artistsRaw, []);
+const RAW_SERVICES = safeParse(servicesRaw, {});
+const RAW_ABOUT = safeParse(aboutRaw, {});
+const RAW_CONTACT = safeParse(contactRaw, {});
+const RAW_GROWTH = safeParse(growthRaw, {});
 
-// Parse once at module load
-const ARTISTS = safeParse(artistsRaw, []);
-const SERVICES = safeParse(servicesRaw, {});
-const ABOUT = safeParse(aboutRaw, { company: {}, founder: {} });
-const CONTACT = safeParse(contactRaw, {});
-const GROWTH = safeParse(growthRaw, {});
+// Normalize artists to have: slug, name, bio, role, image
+const ARTISTS = RAW_ARTISTS.map((a) => {
+  const slug =
+    a.slug ??
+    a.id ??
+    slugify(lastSeg(a.pageUrl)) ??
+    slugify(a.title) ??
+    slugify(a.name);
+  return {
+    ...a,
+    slug,
+    name: a.name ?? a.title ?? a.id ?? slug,
+    bio: a.bio ?? a.description ?? '',
+    role: a.role ?? '',
+    image: a.image ?? `/artists/${slug}.jpg`, // your components also fallback to .png at runtime
+  };
+});
 
-// Map for quick access
-const DATA_MAP = {
-  artists: ARTISTS,
-  services: SERVICES,
-  about: ABOUT,
-  contact: CONTACT,
-  growth: GROWTH,
-};
+// Normalize about: if only {content}, fold into the expected company structure
+const ABOUT =
+  RAW_ABOUT && RAW_ABOUT.company
+    ? RAW_ABOUT
+    : {
+        company: {
+          name: 'The Mosaic',
+          tagline: 'Where Talent Meets Opportunity',
+          description: RAW_ABOUT?.content || 'The Mosaic operates at the intersection of creativity and business.',
+          location: 'Mumbai, Maharashtra, India',
+        },
+        founder: {
+          name: 'Jayesh Bagrecha',
+          title: 'Founder • Strategic Business Leader',
+          image: '/founders/jayesh-bagrecha.jpg',
+          bio: '',
+          additionalBio: '',
+        },
+      };
 
-// ---- main generic hook ----
+const SERVICES = RAW_SERVICES;
+const CONTACT = RAW_CONTACT;
+const GROWTH = RAW_GROWTH;
+
+const DATA_MAP = { artists: ARTISTS, services: SERVICES, about: ABOUT, contact: CONTACT, growth: GROWTH };
+
+// ---- generic hook ----
 export function useStaticData(dataType) {
-  // Data is already available synchronously; we still expose loading/error shape
   const [state, setState] = useState({ data: null, loading: true, error: null });
 
   useEffect(() => {
     try {
-      if (!(dataType in DATA_MAP)) {
-        throw new Error(`Unknown data type: ${dataType}`);
-      }
+      if (!(dataType in DATA_MAP)) throw new Error(`Unknown data type: ${dataType}`);
       setState({ data: DATA_MAP[dataType], loading: false, error: null });
     } catch (err) {
       console.error(`Failed to load ${dataType} data:`, err);
@@ -71,21 +95,11 @@ export function useStaticData(dataType) {
 }
 
 // ---- specific hooks ----
-export function useArtists() {
-  return useStaticData('artists');
-}
-export function useServices() {
-  return useStaticData('services');
-}
-export function useAbout() {
-  return useStaticData('about');
-}
-export function useContact() {
-  return useStaticData('contact');
-}
-export function useGrowth() {
-  return useStaticData('growth');
-}
+export const useArtists = () => useStaticData('artists');
+export const useServices = () => useStaticData('services');
+export const useAbout = () => useStaticData('about');
+export const useContact = () => useStaticData('contact');
+export const useGrowth = () => useStaticData('growth');
 
 // ---- find one artist by slug/id/title/pageUrl ----
 export function useArtist(slug) {
@@ -93,27 +107,18 @@ export function useArtist(slug) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Normalize query: accept raw slug, id, title, or last segment of pageUrl
-  const wanted = useMemo(() => {
-    const seg = lastPathSegment(slug);
-    return slugify(seg || slug);
-  }, [slug]);
+  const wanted = useMemo(() => slugify(lastSeg(slug) || slug), [slug]);
 
   useEffect(() => {
     try {
-      // match by id, slug, title (slugified), or pageUrl’s last segment
       const found = ARTISTS.find((a) => {
-        const byId = slugify(a.id) === wanted; // your JSON uses "id"
-        const bySlug = a.slug && slugify(a.slug) === wanted; // support if present
-        const byTitle = a.title && slugify(a.title) === wanted;
-        const byPage = a.pageUrl && slugify(lastPathSegment(a.pageUrl)) === wanted;
-        return byId || bySlug || byTitle || byPage;
+        const keyId = slugify(a.id);
+        const keySlug = slugify(a.slug);
+        const keyTitle = slugify(a.title || a.name);
+        const keyPage = slugify(lastSeg(a.pageUrl));
+        return [keyId, keySlug, keyTitle, keyPage].includes(wanted);
       });
-
-      if (!found) {
-        throw new Error(`Artist not found: ${slug}`);
-      }
-
+      if (!found) throw new Error(`Artist not found: ${slug}`);
       setArtist(found);
       setError(null);
     } catch (err) {
@@ -128,34 +133,20 @@ export function useArtist(slug) {
   return { artist, loading, error };
 }
 
-// ---- utility (non-hook) API ----
+// ---- utility API ----
 export const staticData = {
   artists: ARTISTS,
   services: SERVICES,
   about: ABOUT,
   contact: CONTACT,
   growth: GROWTH,
-
   getArtistBySlug(slug) {
-    const key = slugify(lastPathSegment(slug) || slug);
-    return ARTISTS.find((a) => {
-      const byId = slugify(a.id) === key;
-      const bySlug = a.slug && slugify(a.slug) === key;
-      const byTitle = a.title && slugify(a.title) === key;
-      const byPage = a.pageUrl && slugify(lastPathSegment(a.pageUrl)) === key;
-      return byId || bySlug || byTitle || byPage;
-    });
+    const key = slugify(lastSeg(slug) || slug);
+    return ARTISTS.find((a) =>
+      [a.id, a.slug, a.title, a.name, lastSeg(a.pageUrl)].some((v) => slugify(v) === key)
+    );
   },
-
-  getArtistsList() {
-    return ARTISTS;
-  },
-
-  getFeaturedArtists() {
-    return ARTISTS.filter((a) => a.featured);
-  },
-
-  getServicesByVertical(vertical) {
-    return SERVICES?.[vertical] || {};
-  },
+  getArtistsList() { return ARTISTS; },
+  getFeaturedArtists() { return ARTISTS.filter((a) => a.featured); },
+  getServicesByVertical(vertical) { return SERVICES?.[vertical] || {}; },
 };
