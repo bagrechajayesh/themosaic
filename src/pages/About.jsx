@@ -33,7 +33,7 @@ export default function About() {
     ],
   };
 
-  const displayData = aboutData || fallbackData;
+  const displayData = aboutData?.company ? aboutData : fallbackData;
 
   useEffect(() => {
     // Lightweight SEO: set title dynamically
