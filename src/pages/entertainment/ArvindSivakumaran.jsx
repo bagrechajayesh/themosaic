@@ -129,7 +129,7 @@ export default function ArvindSivakumaran() {
                 "Literary Analysis",
                 "Screenwriting",
                 "Cross-Cultural Storytelling",
-                "Academic Writing",
+                "Film Editing",
                 "Film Theory",
                 "Narrative Structure",
                 "Creative Writing"
