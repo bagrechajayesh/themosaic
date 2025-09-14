@@ -19,7 +19,7 @@ function ArtistImage({ slug, name }) {
       src={imgSrc}
       alt={name}
       onError={handleError}
-      className="w-full h-55 object-cover rounded-lg mb-4"
+      className="w-full h-full object-cover rounded-lg mb-4"
     />
   );
 }
