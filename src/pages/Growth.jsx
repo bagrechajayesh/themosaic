@@ -64,7 +64,6 @@ function Meta({ title, description, url, image }) {
     document.head.appendChild(script);
 
     return () => {
-      // Clean up JSON-LD on unmount to avoid duplicates during client nav
       const s = document.getElementById("ld-growth");
       if (s) s.remove();
     };
@@ -78,32 +77,28 @@ export default function Growth() {
   const { data: growthData, loading: growthLoading, error: growthError } = useGrowth();
   const { data: servicesData, loading: servicesLoading } = useServices();
 
-  // Fallback services if data loading fails
-  const services = growthData?.programs || servicesData?.growth?.services || [
-    {
-      id: "posh",
-      title: "POSH Compliance Guidance",
-      blurb: "Policies, IC setup, awareness & audits — delivered with Yellow Spark.",
-      emoji: "🛡️",
-    },
-    {
-      id: "communication",
-      title: "Effective Communication Skills",
-      blurb: "Public speaking, business writing, voice & accent, executive presence.",
-      emoji: "🗣️",
-    },
-    {
-      id: "creative",
-      title: "Creative Thinking Workshop",
-      blurb: "Open minds, break ruts, and solve real problems with practical tools.",
-      emoji: "💡",
-    },
-  ];
+  // Fallback services if data loading fails (POSH removed)
+  const services =
+    growthData?.programs ||
+    servicesData?.growth?.services || [
+      {
+        id: "communication",
+        title: "Effective Communication Skills",
+        blurb: "Public speaking, business writing, voice & accent, executive presence.",
+        emoji: "🗣️",
+      },
+      {
+        id: "creative",
+        title: "Creative Thinking Workshop",
+        blurb: "Open minds, break ruts, and solve real problems with practical tools.",
+        emoji: "💡",
+      },
+    ];
 
   const pageMeta = {
     title: "Growth Services | The Mosaic",
     description:
-      "Unlock growth with POSH compliance guidance (with Yellow Spark), effective communication skills, and creative thinking workshops. Click a service to learn more.",
+      "Unlock growth with effective communication skills and creative thinking workshops. Click a service to learn more.",
     url: "https://themosaic.pro/growth",
     image: "",
   };
@@ -147,9 +142,8 @@ export default function Growth() {
         {/* Cards */}
         <div className="grid gap-6 md:grid-cols-3 mt-10">
           {Object.entries(services).map(([key, service], i) => {
-            // Handle both object format (from growthData.programs) and array format (fallback)
             const serviceData = service.id ? service : { id: key, ...service };
-            
+
             return (
               <Link
                 key={serviceData.id || key}
@@ -178,14 +172,14 @@ export default function Growth() {
           })}
         </div>
 
-        {/* Quick highlights */}
+        {/* Quick highlights (POSH reference removed) */}
         <div className="mt-14">
           <h2 className="text-2xl font-bold mb-4">How we help</h2>
           <ul className="grid gap-3 md:grid-cols-2 text-base leading-7">
             <li>📈 Business strategy & positioning</li>
             <li>💬 Communication and executive presence</li>
-            <li>🎯 Compliance & culture programs (POSH, etc.)</li>
             <li>💡 Creativity sprints for problem-solving</li>
+            <li>🧭 Mentoring & program design</li>
           </ul>
         </div>
 

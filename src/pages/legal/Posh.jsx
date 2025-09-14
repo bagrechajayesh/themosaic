@@ -1,8 +1,9 @@
+// src/pages/legal/Posh.jsx
 import React from "react";
 import { motion } from "framer-motion";
 import { Shield, CheckCircle2, Users, Scale, BookOpen, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import Meta from "../../components/Meta"; // ← tiny SEO helper you already have
+import Meta from "../../components/Meta"; // tiny SEO helper
 
 const fadeUp = (d = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -15,7 +16,7 @@ export default function Posh() {
   const title = "POSH Compliance Guidance | The Mosaic";
   const description =
     "End-to-end POSH programs by The Mosaic: policy drafting, IC setup & certification, awareness sessions, and compliance audits.";
-  const url = "https://themosaic.pro/growth/posh";
+  const url = "https://themosaic.pro/legal/posh"; // moved under Legal
 
   // JSON-LD
   const serviceLd = {
@@ -66,7 +67,6 @@ export default function Posh() {
             POSH Compliance Guidance
           </motion.h1>
 
-          {/* Mention partner only as plain text, no outbound link */}
           <motion.p {...fadeUp(0.15)} className="mt-6 max-w-3xl text-lg/8 opacity-90">
             Comprehensive, action-oriented POSH programs — delivered by The Mosaic{" "}
             <span className="opacity-80">in partnership with</span>{" "}
@@ -74,15 +74,14 @@ export default function Posh() {
           </motion.p>
 
           <motion.div {...fadeUp(0.3)} className="mt-8 flex flex-wrap gap-3">
-            {/* CTA changed to Contact page */}
             <Link
               to="/contact"
               className="bg-white text-rose-700 font-semibold px-6 py-3 rounded-xl hover:bg-rose-50 transition inline-flex items-center"
             >
               Contact us <ArrowRight className="w-5 h-5 ml-2" />
             </Link>
-            <Link to="/growth" className="border border-white/40 px-6 py-3 rounded-xl hover:bg-white/10">
-              Back to Growth
+            <Link to="/legal" className="border border-white/40 px-6 py-3 rounded-xl hover:bg-white/10">
+              Back to Legal
             </Link>
           </motion.div>
         </div>
@@ -161,7 +160,7 @@ export default function Posh() {
         </div>
       </section>
 
-      {/* Contact block (kept for a strong CTA, but now routes to /contact) */}
+      {/* Contact block */}
       <section id="contact" className="max-w-7xl mx-auto px-6 pb-20">
         <motion.div
           {...fadeUp()}

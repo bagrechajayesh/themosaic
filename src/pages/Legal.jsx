@@ -7,14 +7,15 @@ import { Scale, FileText, Shield, Users, Building, Gavel, CheckCircle2, ArrowRig
 export default function Legal() {
   const { data: servicesData, loading, error } = useServices();
 
-  // Fallback legal services if data loading fails
+  // Fallback legal services if data loading fails (now includes POSH)
   const legalServices = servicesData?.legal?.services || [
     "Entertainment Law & Contracts",
-    "Business Contract Drafting", 
+    "Business Contract Drafting",
     "Intellectual Property Protection",
     "Corporate Law & Compliance",
     "Litigation Support & Representation",
-    "Legal Consulting & Advisory"
+    "Legal Consulting & Advisory",
+    "POSH Compliance & Workplace Safety",
   ];
 
   const legalAreas = [
@@ -22,33 +23,39 @@ export default function Legal() {
       icon: FileText,
       title: "Contract Drafting & Negotiation",
       description: "Comprehensive contract services for entertainment, business, and creative industries.",
-      services: ["Entertainment Contracts", "Business Agreements", "Licensing Deals", "Employment Contracts"]
+      services: ["Entertainment Contracts", "Business Agreements", "Licensing Deals", "Employment Contracts"],
     },
     {
       icon: Shield,
       title: "Intellectual Property Rights",
       description: "Protect your creative works, trademarks, and business innovations.",
-      services: ["Copyright Registration", "Trademark Protection", "Patent Applications", "IP Strategy"]
+      services: ["Copyright Registration", "Trademark Protection", "Patent Applications", "IP Strategy"],
     },
     {
       icon: Scale,
       title: "Regulatory & Compliance Advisory",
       description: "Navigate complex regulations and maintain compliance across industries.",
-      services: ["Industry Compliance", "Regulatory Filings", "Policy Development", "Risk Assessment"]
+      services: [
+        "Industry Compliance",
+        "Regulatory Filings",
+        "Policy Development",
+        "Risk Assessment",
+        "POSH Compliance (Policies, IC Setup, Training)",
+      ],
     },
     {
       icon: Building,
       title: "Corporate Law Services",
       description: "Legal support for business formation, governance, and transactions.",
-      services: ["Company Formation", "Corporate Governance", "M&A Support", "Board Advisory"]
-    }
+      services: ["Company Formation", "Corporate Governance", "M&A Support", "Board Advisory"],
+    },
   ];
 
   const industries = [
     { name: "Entertainment & Media", description: "Film, TV, music, digital content" },
     { name: "Creative Industries", description: "Art, design, publishing, gaming" },
     { name: "Technology Startups", description: "SaaS, apps, digital platforms" },
-    { name: "Small & Medium Business", description: "General business legal needs" }
+    { name: "Small & Medium Business", description: "General business legal needs" },
   ];
 
   if (loading) {
@@ -75,7 +82,7 @@ export default function Legal() {
               </p>
             </div>
           )}
-          
+
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -84,14 +91,14 @@ export default function Legal() {
           >
             <h1 className="text-4xl md:text-6xl font-bold mb-6">Legal Services</h1>
             <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Comprehensive legal support tailored for creative industries, growing businesses, 
+              Comprehensive legal support tailored for creative industries, growing businesses,
               and entertainment professionals.
             </p>
             <p className="text-lg mb-8 max-w-4xl mx-auto opacity-80">
-              Our legal advisory wing supports artists, creators, startups, and businesses in navigating 
+              Our legal advisory wing supports artists, creators, startups, and businesses in navigating
               the complex landscape of intellectual property, contracts, and regulatory compliance.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/contact"
@@ -109,6 +116,31 @@ export default function Legal() {
                 Quick Questions
               </a>
             </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Featured: POSH */}
+      <section className="py-12 bg-amber-50 border-y border-amber-100">
+        <div className="max-w-7xl mx-auto px-6">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          >
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-amber-900">POSH Compliance Guidance</h2>
+              <p className="text-amber-900/80 mt-2 max-w-2xl">
+                End-to-end POSH programs: policy drafting, IC setup & certification, awareness sessions, and compliance audits.
+              </p>
+            </div>
+            <Link
+              to="/legal/posh"
+              className="inline-flex items-center px-6 py-3 bg-amber-600 text-white rounded-xl font-semibold hover:bg-amber-700 transition"
+            >
+              Explore POSH <ArrowRight className="w-5 h-5 ml-2" />
+            </Link>
           </motion.div>
         </div>
       </section>
@@ -131,7 +163,7 @@ export default function Legal() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {legalAreas.map((area, index) => {
               const IconComponent = area.icon;
-              
+
               return (
                 <motion.div
                   key={area.title}
@@ -146,9 +178,9 @@ export default function Legal() {
                     </div>
                     <h3 className="text-2xl font-bold text-gray-900">{area.title}</h3>
                   </div>
-                  
+
                   <p className="text-gray-700 mb-6 leading-relaxed">{area.description}</p>
-                  
+
                   <div className="space-y-2">
                     {area.services.map((service, idx) => (
                       <div key={idx} className="flex items-center">
@@ -240,7 +272,7 @@ export default function Legal() {
           >
             <h2 className="text-4xl font-bold mb-6">Need Legal Support?</h2>
             <p className="text-xl mb-8 opacity-90">
-              Whether you're launching a creative project, scaling your business, or need contract review, 
+              Whether you're launching a creative project, scaling your business, or need contract review,
               our legal team is here to protect your interests and guide your success.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
