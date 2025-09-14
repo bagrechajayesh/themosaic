@@ -56,8 +56,8 @@ export default function Entertainment() {
     {
       slug: "steven-hanulik",
       name: "Steven Hanulik",
-      role: "Filmmaker • Copywriter",
-      bio: "Steven has 20 years of experience in film, broadcast, and ad marketing. Co-creator of Canada's first 3D stop-motion short 'Skeleton Girl', and writer of 'Middle of Nowhere' and 'Lily'.",
+      role: "Filmmaker • Professional Copywriter",
+      bio: "Steven has nearly 20 years of experience in film, television, broadcast news, and ad marketing. Co-creator of Canada's first 3D stop-motion short 'Skeleton Girl'.",
     },
   ];
 
