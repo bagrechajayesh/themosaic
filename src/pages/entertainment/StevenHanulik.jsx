@@ -42,7 +42,7 @@ export default function StevenHanulik() {
                 src={imgSrc}
                 alt="Steven Hanulik"
                 onError={handleImgError}
-                className="w-full h-80 object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
           </div>
