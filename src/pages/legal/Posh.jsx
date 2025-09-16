@@ -1,9 +1,47 @@
 // src/pages/legal/Posh.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Shield, CheckCircle2, Users, Scale, BookOpen, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import Meta from "../../components/Meta"; // tiny SEO helper
+
+// Minimal in-file Meta, so this page is self-contained
+function Meta({ title, description, url }) {
+  useEffect(() => {
+    if (title) document.title = title;
+    const ensure = (sel, attr, val) => {
+      if (!val) return;
+      let el = document.head.querySelector(sel);
+      if (!el) {
+        el = document.createElement("meta");
+        if (sel.startsWith('meta[name="')) {
+          el.setAttribute("name", sel.match(/meta\[name="([^"]+)"\]/)[1]);
+        } else if (sel.startsWith('meta[property="')) {
+          el.setAttribute("property", sel.match(/meta\[property="([^"]+)"\]/)[1]);
+        }
+        document.head.appendChild(el);
+      }
+      el.setAttribute(attr, val);
+    };
+    ensure('meta[name="description"]', "content", description);
+    ensure('meta[property="og:title"]', "content", title);
+    ensure('meta[property="og:description"]', "content", description);
+    ensure('meta[property="og:type"]', "content", "website");
+    ensure('meta[property="og:url"]', "content", url);
+    ensure('meta[name="twitter:card"]', "content", "summary");
+    ensure('meta[name="twitter:title"]', "content", title);
+    ensure('meta[name="twitter:description"]', "content", description);
+    if (url) {
+      let link = document.head.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", "canonical");
+        document.head.appendChild(link);
+      }
+      link.setAttribute("href", url);
+    }
+  }, [title, description, url]);
+  return null;
+}
 
 const fadeUp = (d = 0) => ({
   initial: { opacity: 0, y: 24 },
@@ -16,20 +54,7 @@ export default function Posh() {
   const title = "POSH Compliance Guidance | The Mosaic";
   const description =
     "End-to-end POSH programs by The Mosaic: policy drafting, IC setup & certification, awareness sessions, and compliance audits.";
-  const url = "https://themosaic.pro/legal/posh"; // moved under Legal
-
-  // JSON-LD
-  const serviceLd = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    name: "POSH Compliance Guidance",
-    provider: { "@type": "Organization", name: "The Mosaic" },
-    areaServed: "IN",
-    description,
-    url,
-    serviceType: "Compliance Training",
-    offers: { "@type": "Offer", availability: "https://schema.org/InStock" },
-  };
+  const url = "https://themosaic.pro/legal/posh";
 
   const highlights = [
     { icon: Shield, title: "Policy & Governance", text: "Drafting, review and implementation of POSH policy aligned to law and your culture." },
@@ -50,9 +75,9 @@ export default function Posh() {
   ];
 
   const faqs = [
-    { q: "Who should attend?", a: "Leaders, HR, IC members, functional managers and all employees. We provide separate tracks for IC and employees." },
-    { q: "Do you provide certificates?", a: "Yes. Participants completing IC certification receive a digital certificate and reference templates." },
-    { q: "Languages supported?", a: "English + Hindi by default. Regional languages available on request." },
+    { q: "Who should attend?", a: "Leaders, HR, IC members, functional managers and all employees. Separate tracks for IC and employees." },
+    { q: "Do you provide certificates?", a: "Yes. IC certification includes a digital certificate and reference templates." },
+    { q: "Languages supported?", a: "English + Hindi by default. Regional languages on request." },
     { q: "Delivery formats?", a: "On-site workshops (½ day to 2 days), live virtual cohorts, and micro-learning modules." },
   ];
 
@@ -129,14 +154,14 @@ export default function Posh() {
             <ul className="space-y-3 text-gray-700">
               <li>• 2-hour primers, ½-day intensives, 1–2 day certifications</li>
               <li>• Live virtual cohorts (Zoom/Meet) with breakout activities</li>
-              <li>• Train-the-Trainer for in-house L&D & HR</li>
-              <li>• Ongoing compliance retainer & annual refreshers</li>
+              <li>• Train-the-Trainer for in-house L&amp;D &amp; HR</li>
+              <li>• Ongoing compliance retainer &amp; annual refreshers</li>
             </ul>
           </motion.div>
           <motion.div {...fadeUp(0.1)} className="bg-white p-8 rounded-2xl shadow-sm">
             <h3 className="text-2xl font-bold mb-4">Tangible outcomes</h3>
             <ul className="space-y-3 text-gray-700">
-              <li>• Legally compliant POSH policy & records</li>
+              <li>• Legally compliant POSH policy &amp; records</li>
               <li>• Certified IC with inquiry readiness</li>
               <li>• Measurable awareness across the workforce</li>
               <li>• Reduced risk and stronger workplace culture</li>
@@ -178,9 +203,6 @@ export default function Posh() {
           </Link>
         </motion.div>
       </section>
-
-      {/* JSON-LD */}
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceLd) }} />
     </div>
   );
 }

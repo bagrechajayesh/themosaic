@@ -7,7 +7,7 @@ import { Scale, FileText, Shield, Users, Building, Gavel, CheckCircle2, ArrowRig
 export default function Legal() {
   const { data: servicesData, loading, error } = useServices();
 
-  // Fallback legal services if data loading fails (now includes POSH)
+  // Fallback legal services if data loading fails (includes POSH)
   const legalServices = servicesData?.legal?.services || [
     "Entertainment Law & Contracts",
     "Business Contract Drafting",
@@ -22,7 +22,8 @@ export default function Legal() {
     {
       icon: FileText,
       title: "Contract Drafting & Negotiation",
-      description: "Comprehensive contract services for entertainment, business, and creative industries.",
+      description:
+        "Comprehensive contract services for entertainment, business, and creative industries.",
       services: ["Entertainment Contracts", "Business Agreements", "Licensing Deals", "Employment Contracts"],
     },
     {
@@ -74,7 +75,6 @@ export default function Legal() {
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-amber-600 via-orange-600 to-red-600 text-white py-20">
         <div className="max-w-7xl mx-auto px-6">
-          {/* Error banner if data loading failed */}
           {error && (
             <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-8">
               <p className="text-sm">
@@ -132,7 +132,7 @@ export default function Legal() {
             <div>
               <h2 className="text-2xl md:text-3xl font-bold text-amber-900">POSH Compliance Guidance</h2>
               <p className="text-amber-900/80 mt-2 max-w-2xl">
-                End-to-end POSH programs: policy drafting, IC setup & certification, awareness sessions, and compliance audits.
+                End-to-end POSH programs: policy drafting, IC setup &amp; certification, awareness sessions, and compliance audits.
               </p>
             </div>
             <Link
@@ -163,7 +163,6 @@ export default function Legal() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {legalAreas.map((area, index) => {
               const IconComponent = area.icon;
-
               return (
                 <motion.div
                   key={area.title}

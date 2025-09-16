@@ -22,10 +22,8 @@ function Meta({ title, description, url, image }) {
       el.setAttribute(attr, value);
     };
 
-    // Title
     if (title) document.title = title;
 
-    // Standard + OpenGraph + Twitter
     set('meta[name="description"]', "content", description);
     set('meta[property="og:title"]', "content", title);
     set('meta[property="og:description"]', "content", description);
@@ -38,7 +36,6 @@ function Meta({ title, description, url, image }) {
     set('meta[name="twitter:description"]', "content", description);
     if (image) set('meta[name="twitter:image"]', "content", image);
 
-    // Canonical link
     if (url) {
       let link = document.head.querySelector('link[rel="canonical"]');
       if (!link) {
@@ -72,7 +69,6 @@ function Meta({ title, description, url, image }) {
   return null;
 }
 
-// --- Page ---
 export default function Growth() {
   const { data: growthData, loading: growthLoading, error: growthError } = useGrowth();
   const { data: servicesData, loading: servicesLoading } = useServices();
@@ -118,7 +114,6 @@ export default function Growth() {
     <div className="min-h-screen bg-white text-gray-900 px-6 py-12">
       <Meta {...pageMeta} />
 
-      {/* Error banner if data loading failed */}
       {(growthError || !growthData) && (
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-8 max-w-6xl mx-auto">
           <p className="text-sm">
@@ -143,7 +138,6 @@ export default function Growth() {
         <div className="grid gap-6 md:grid-cols-3 mt-10">
           {Object.entries(services).map(([key, service], i) => {
             const serviceData = service.id ? service : { id: key, ...service };
-
             return (
               <Link
                 key={serviceData.id || key}
