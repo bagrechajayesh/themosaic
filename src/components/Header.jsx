@@ -33,7 +33,7 @@ const Header = () => {
   }, [pathname]);
 
   // Optional prefetch to make submenu pages feel instant
-  const prefetchPosh = () => import('../pages/growth/Posh');
+  const prefetchPosh = () => import('../pages/legal/Posh');
   const prefetchComm = () => import('../pages/growth/Communication');
   const prefetchCreat = () => import('../pages/growth/Creative');
 
@@ -137,7 +137,7 @@ const Header = () => {
                   </Link>
                   <hr className="my-2 border-gray-100" />
                   <Link
-                    to="/growth/posh"
+                    to="/legal/posh"
                     onMouseEnter={prefetchPosh}
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
                     onClick={() => setGrowthOpen(false)}
@@ -241,7 +241,7 @@ const Header = () => {
                   <Link to="/growth" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
                     Overview
                   </Link>
-                  <Link to="/growth/posh" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                  <Link to="/legal/posh" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
                     POSH Compliance Guidance
                   </Link>
                   <Link to="/growth/communication" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>

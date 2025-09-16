@@ -11,7 +11,7 @@ import Legal from './pages/Legal';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import Artist from './pages/Artist.jsx'; // Keep as fallback
-import Posh from "./pages/growth/Posh";                   // or "@/pages/growth/Posh" if you use the @ alias
+import Posh from "./pages/legal/Posh";                   // or "@/pages/legal/Posh" if you use the @ alias
 import Communication from "./pages/growth/Communication";
 import Creative from "./pages/growth/Creative";
 
@@ -44,7 +44,7 @@ export default function App() {
             <Route path="/entertainment/:slug" element={<Artist />} />
             
             <Route path="/growth" element={<Growth />} />
-            <Route path="/growth/posh" element={<Posh />} />
+            <Route path="/legal/posh" element={<Posh />} />
 	    <Route path="/growth/communication" element={<Communication />} />
 	    <Route path="/growth/creative" element={<Creative />} /> 
             <Route path="/legal" element={<Legal />} />
