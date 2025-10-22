@@ -24,11 +24,11 @@ import StevenHanulik from './pages/entertainment/StevenHanulik';
 import usePageTracking from "./usePageTracking";
 
 export default function App() {
-  // ✅ Initialize GA tracking for route changes
-  usePageTracking();
-
   return (
     <BrowserRouter>
+      {/* ✅ Place hook INSIDE the BrowserRouter */}
+      <PageTracker />
+
       <div className="flex flex-col min-h-screen">
         {/* Header / Navbar */}
         <Header />
@@ -58,14 +58,17 @@ export default function App() {
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
 
-            {/* Optional catch-all route (uncomment if needed) */}
+            {/* Optional catch-all route */}
             {/* <Route path="*" element={<Home />} /> */}
           </Routes>
         </main>
-
-        {/* Optional footer can go here */}
-        {/* <Footer /> */}
       </div>
     </BrowserRouter>
   );
+}
+
+// ✅ Wrapper component that calls the hook inside Router context
+function PageTracker() {
+  usePageTracking();
+  return null;
 }
