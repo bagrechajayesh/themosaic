@@ -55,7 +55,7 @@ const Header = () => {
   const prefetchComm = () => import('../pages/growth/Communication');
   const prefetchCreat = () => import('../pages/growth/Creative');
 
-const navigationItems = [
+  const navigationItems = [
     { name: 'Home', href: '/', icon: Home, end: true },
     { name: 'Services', href: '/services', icon: Settings },
     // { name: 'Growth', href: '/growth', icon: Briefcase }, // handled as dropdown
@@ -69,7 +69,7 @@ const navigationItems = [
   const active = 'text-blue-700 bg-blue-50';
 
   const isGrowthActive = pathname.startsWith('/growth');
-  const isLegalActive = pathname.startsWith('/legal');
+  const isLegalActive = pathname.startsWith('/legal') || pathname.startsWith('/entertainment');
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50">
@@ -95,18 +95,17 @@ const navigationItems = [
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-2">
-            {navigationItems
-              .map(({ name, href, icon: Icon, end }) => (
-                <NavLink
-                  key={name}
-                  to={href}
-                  end={end}
-                  className={({ isActive }) => `${baseLink} ${isActive ? active : idle}`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span className="font-medium">{name}</span>
-                </NavLink>
-              ))}
+            {navigationItems.map(({ name, href, icon: Icon, end }) => (
+              <NavLink
+                key={name}
+                to={href}
+                end={end}
+                className={({ isActive }) => `${baseLink} ${isActive ? active : idle}`}
+              >
+                <Icon className="h-4 w-4" />
+                <span className="font-medium">{name}</span>
+              </NavLink>
+            ))}
 
             {/* Growth dropdown (desktop) */}
             <div className="relative" ref={growthMenuRef}>
@@ -167,7 +166,7 @@ const navigationItems = [
               )}
             </div>
 
-            {/* Legal dropdown (desktop) — NEW: POSH lives here */}
+            {/* Legal dropdown (desktop) — now includes Entertainment */}
             <div className="relative" ref={legalMenuRef}>
               <button
                 type="button"
@@ -202,7 +201,21 @@ const navigationItems = [
                     <div className="font-medium">Legal overview</div>
                     <div className="text-sm text-gray-600">Explore legal services</div>
                   </Link>
+
+                  {/* NEW: Entertainment under Legal */}
+                  <Link
+                    to="/entertainment"
+                    className="block rounded-xl px-3 py-2 hover:bg-gray-50"
+                    onClick={() => setLegalOpen(false)}
+                  >
+                    <div className="font-medium">Entertainment Services</div>
+                    <div className="text-sm text-gray-600">
+                      Production, writing & creative support
+                    </div>
+                  </Link>
+
                   <hr className="my-2 border-gray-100" />
+
                   <Link
                     to="/legal/posh"
                     onMouseEnter={prefetchPosh}
@@ -218,7 +231,11 @@ const navigationItems = [
           </nav>
 
           {/* Mobile menu button */}
-          <button className="md:hidden text-gray-700" onClick={() => setIsMenuOpen((v) => !v)} aria-label="Toggle navigation">
+          <button
+            className="md:hidden text-gray-700"
+            onClick={() => setIsMenuOpen((v) => !v)}
+            aria-label="Toggle navigation"
+          >
             {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
           </button>
         </div>
@@ -258,21 +275,33 @@ const navigationItems = [
 
               {growthOpenMobile && (
                 <div className="ml-7 mt-1 space-y-1">
-                  <Link to="/growth" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    to="/growth"
+                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     Overview
                   </Link>
                   {/* POSH entry removed from here */}
-                  <Link to="/growth/communication" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    to="/growth/communication"
+                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     Effective Communication Skills
                   </Link>
-                  <Link to="/growth/creative" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    to="/growth/creative"
+                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     Creative Thinking Workshop
                   </Link>
                 </div>
               )}
             </div>
 
-            {/* Legal collapsible (mobile) — NEW: includes POSH */}
+            {/* Legal collapsible (mobile) — now includes Entertainment */}
             <div className="px-2">
               <button
                 className="w-full flex items-center justify-between px-2 py-3 rounded-md hover:bg-blue-50 text-gray-700"
@@ -288,10 +317,25 @@ const navigationItems = [
 
               {legalOpenMobile && (
                 <div className="ml-7 mt-1 space-y-1">
-                  <Link to="/legal" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    to="/legal"
+                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     Overview
                   </Link>
-                  <Link to="/legal/posh" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                  <Link
+                    to="/entertainment"
+                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Entertainment Services
+                  </Link>
+                  <Link
+                    to="/legal/posh"
+                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
                     POSH Compliance Guidance
                   </Link>
                 </div>
