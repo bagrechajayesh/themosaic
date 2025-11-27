@@ -55,11 +55,9 @@ const Header = () => {
   const prefetchComm = () => import('../pages/growth/Communication');
   const prefetchCreat = () => import('../pages/growth/Creative');
 
-  // Base nav items (we’ll render Growth + Legal as dropdowns separately)
-  const navigationItems = [
+const navigationItems = [
     { name: 'Home', href: '/', icon: Home, end: true },
     { name: 'Services', href: '/services', icon: Settings },
-    { name: 'Entertainment', href: '/entertainment', icon: Film },
     // { name: 'Growth', href: '/growth', icon: Briefcase }, // handled as dropdown
     // { name: 'Legal', href: '/legal', icon: Scale },       // handled as dropdown
     { name: 'About', href: '/about', icon: Info },

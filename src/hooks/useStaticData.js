@@ -18,6 +18,11 @@ function safeParse(raw, fallback) {
     return fallback;
   }
 }
+// Treat items as active unless explicitly flagged inactive
+function isActive(item) {
+  return item && item.active !== false;
+}
+
 const slugify = (s) =>
   String(s || '')
     .trim()
@@ -33,23 +38,27 @@ const RAW_ABOUT = safeParse(aboutRaw, {});
 const RAW_CONTACT = safeParse(contactRaw, {});
 const RAW_GROWTH = safeParse(growthRaw, {});
 
-// Normalize artists to have: slug, name, bio, role, image
-const ARTISTS = RAW_ARTISTS.map((a) => {
+// Normalize all artists — includes slug, name, bio, role, image
+const ARTISTS_ALL = RAW_ARTISTS.map((a) => {
   const slug =
     a.slug ??
     a.id ??
     slugify(lastSeg(a.pageUrl)) ??
     slugify(a.title) ??
     slugify(a.name);
+
   return {
     ...a,
     slug,
     name: a.name ?? a.title ?? a.id ?? slug,
-    bio: a.bio ?? a.description ?? '',
-    role: a.role ?? '',
-    image: a.image ?? `/artists/${slug}.jpg`, // your components also fallback to .png at runtime
+    bio: a.bio ?? a.description ?? "",
+    role: a.role ?? "",
+    image: a.image ?? `/artists/${slug}.jpg`,
   };
 });
+
+// Filter by active/inactive flag → used by UI
+const ARTISTS = ARTISTS_ALL.filter(isActive);
 
 // Normalize about: if only {content}, fold into the expected company structure
 const ABOUT =
@@ -131,6 +140,11 @@ export function useArtist(slug) {
   }, [wanted, slug]);
 
   return { artist, loading, error };
+}
+
+// Generic helper to filter any list by active flag for future profile modules
+export function useActiveList(list = []) {
+  return (list || []).filter(isActive);
 }
 
 // ---- utility API ----
