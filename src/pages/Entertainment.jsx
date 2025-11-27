@@ -25,7 +25,11 @@ function ArtistImage({ slug, name }) {
 }
 
 export default function Entertainment() {
-  const { data: artists, loading: artistsLoading, error: artistsError } = useArtists();
+  const {
+    data: artists,
+    loading: artistsLoading,
+    error: artistsError,
+  } = useArtists();
   const { data: services, loading: servicesLoading } = useServices();
 
   if (artistsLoading) {
@@ -39,36 +43,26 @@ export default function Entertainment() {
     );
   }
 
-  // Use fallback artists if data load fails
-  const displayArtists = artists || [
-    {
-      slug: "arvind-sivakumaran",
-      name: "Arvind Sivakumaran",
-      role: "Filmmaker • Scholar • Writer",
-      bio: "Arvind graduated in Film Production from Victoria Motion Picture School, B.C., Canada in 2002. He also holds a degree in English Literature from St. Xaviers College, Mumbai.",
-    },
-    {
-      slug: "vinay-choudary",
-      name: "Vinay Choudary",
-      role: "Writer • Director • Script Consultant",
-      bio: "Vinay is a versatile Indian screenwriter and director with 1000+ TV episodes, feature films, and a Prime Video web series.",
-    },
-    {
-      slug: "steven-hanulik",
-      name: "Steven Hanulik",
-      role: "Filmmaker • Professional Copywriter",
-      bio: "Steven has nearly 20 years of experience in film, television, broadcast news, and ad marketing. Co-creator of Canada's first 3D stop-motion short 'Skeleton Girl'.",
-    },
-  ];
+  // Use fallback artists if data load fails – only Vinay as active profile
+  const displayArtists =
+    artists || [
+      {
+        slug: "vinay-choudary",
+        name: "Vinay Choudary",
+        role: "Writer • Director • Script Consultant",
+        bio: "Vinay is a versatile Indian screenwriter and director with 1000+ TV episodes, feature films, and a Prime Video web series.",
+      },
+    ];
 
-  const entertainmentServices = services?.entertainment?.services || [
-    "Script Consulting & Analysis",
-    "Screenplay Writing & Development",
-    "Talent Representation & Management", 
-    "Project Development & Packaging",
-    "Industry Networking & Connections",
-    "Creative Consulting & Strategy"
-  ];
+  const entertainmentServices =
+    services?.entertainment?.services || [
+      "Script Consulting & Analysis",
+      "Screenplay Writing & Development",
+      "Talent Representation & Management",
+      "Project Development & Packaging",
+      "Industry Networking & Connections",
+      "Creative Consulting & Strategy",
+    ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 to-gray-800 text-white px-6 py-12">
@@ -78,7 +72,8 @@ export default function Entertainment() {
       {artistsError && (
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-8 max-w-4xl mx-auto">
           <p className="text-sm">
-            <strong>Note:</strong> Using cached artist data. Latest updates may not be reflected.
+            <strong>Note:</strong> Using cached artist data. Latest updates may not be
+            reflected.
           </p>
         </div>
       )}
@@ -98,8 +93,12 @@ export default function Entertainment() {
               <ArtistImage slug={artist.slug} name={artist.name} />
 
               <h2 className="text-xl font-semibold text-center">{artist.name}</h2>
-              <p className="text-sm text-center text-gray-500 mb-2">{artist.role}</p>
-              <p className="text-sm text-gray-700 mt-4 line-clamp-3">{artist.bio}</p>
+              <p className="text-sm text-center text-gray-500 mb-2">
+                {artist.role}
+              </p>
+              <p className="text-sm text-gray-700 mt-4 line-clamp-3">
+                {artist.bio}
+              </p>
             </Link>
           </motion.div>
         ))}
@@ -108,12 +107,12 @@ export default function Entertainment() {
       {/* Services section */}
       <div className="mt-20 max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8">Our Services</h2>
-        
+
         {servicesLoading ? (
           <div className="text-center">
             <div className="animate-pulse grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[1,2,3,4,5,6].map(i => (
-                <div key={i} className="bg-gray-100 rounded-lg h-20"></div>
+              {[1, 2, 3, 4, 5, 6].map((i) => (
+                <div key={i} className="bg-gray-100 rounded-lg h-20" />
               ))}
             </div>
           </div>
@@ -124,7 +123,7 @@ export default function Entertainment() {
                 key={service}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 + (i * 0.1) }}
+                transition={{ delay: 0.6 + i * 0.1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.98 }}
                 className="bg-gray-100 text-gray-800 rounded-lg p-6 shadow-md hover:shadow-xl transition"

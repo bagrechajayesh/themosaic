@@ -13,9 +13,15 @@ function Meta({ title, description, url, image }) {
       if (!el) {
         el = document.createElement("meta");
         if (selector.startsWith('meta[name="')) {
-          el.setAttribute("name", selector.match(/meta\[name="([^"]+)"\]/)[1]);
+          el.setAttribute(
+            "name",
+            selector.match(/meta\[name="([^"]+)"\]/)[1]
+          );
         } else if (selector.startsWith('meta[property="')) {
-          el.setAttribute("property", selector.match(/meta\[property="([^"]+)"\]/)[1]);
+          el.setAttribute(
+            "property",
+            selector.match(/meta\[property="([^"]+)"\]/)[1]
+          );
         }
         document.head.appendChild(el);
       }
@@ -31,7 +37,11 @@ function Meta({ title, description, url, image }) {
     set('meta[property="og:url"]', "content", url);
     if (image) set('meta[property="og:image"]', "content", image);
 
-    set('meta[name="twitter:card"]', "content", image ? "summary_large_image" : "summary");
+    set(
+      'meta[name="twitter:card"]',
+      "content",
+      image ? "summary_large_image" : "summary"
+    );
     set('meta[name="twitter:title"]', "content", title);
     set('meta[name="twitter:description"]', "content", description);
     if (image) set('meta[name="twitter:image"]', "content", image);
@@ -70,31 +80,51 @@ function Meta({ title, description, url, image }) {
 }
 
 export default function Growth() {
-  const { data: growthData, loading: growthLoading, error: growthError } = useGrowth();
+  const {
+    data: growthData,
+    loading: growthLoading,
+    error: growthError,
+  } = useGrowth();
   const { data: servicesData, loading: servicesLoading } = useServices();
 
-  // Fallback services if data loading fails (POSH removed)
+  // Fallback services if data loading fails – now includes fitout + real estate analysis
   const services =
     growthData?.programs ||
     servicesData?.growth?.services || [
       {
         id: "communication",
         title: "Effective Communication Skills",
-        blurb: "Public speaking, business writing, voice & accent, executive presence.",
+        blurb:
+          "Public speaking, business writing, voice & accent, executive presence.",
         emoji: "🗣️",
       },
       {
         id: "creative",
         title: "Creative Thinking Workshop",
-        blurb: "Open minds, break ruts, and solve real problems with practical tools.",
+        blurb:
+          "Open minds, break ruts, and solve real problems with practical tools.",
         emoji: "💡",
+      },
+      {
+        id: "fitout",
+        title: "Fitout & Turnkey Execution",
+        blurb:
+          "Retail and commercial fitouts, BOQ & costing, vendor coordination, and on-site execution.",
+        emoji: "🏗️",
+      },
+      {
+        id: "realestate-analysis",
+        title: "Real Estate Analysis",
+        blurb:
+          "Catchment and location analysis, feasibility studies, and site-selection strategy for projects.",
+        emoji: "📍",
       },
     ];
 
   const pageMeta = {
     title: "Growth Services | The Mosaic",
     description:
-      "Unlock growth with effective communication skills and creative thinking workshops. Click a service to learn more.",
+      "Unlock growth with communication skills, creative thinking, fitout support, and real estate analysis including catchment and location studies.",
     url: "https://themosaic.pro/growth",
     image: "",
   };
@@ -117,7 +147,8 @@ export default function Growth() {
       {(growthError || !growthData) && (
         <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-8 max-w-6xl mx-auto">
           <p className="text-sm">
-            <strong>Note:</strong> Using cached service data. Latest updates may not be reflected.
+            <strong>Note:</strong> Using cached service data. Latest updates may
+            not be reflected.
           </p>
         </div>
       )}
@@ -128,10 +159,13 @@ export default function Growth() {
         transition={{ duration: 0.5 }}
         className="max-w-6xl mx-auto"
       >
-        <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-6">Growth Services</h1>
+        <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-6">
+          Growth Services
+        </h1>
         <p className="text-lg md:text-xl text-center max-w-3xl mx-auto">
-          We empower creative businesses, start-ups, and individuals with strategic guidance,
-          skills programs, and mindset workshops to fuel sustainable growth.
+          We empower creative businesses, start-ups, and individuals with
+          strategic guidance, skills programs, and real-estate linked growth
+          support to fuel sustainable expansion.
         </p>
 
         {/* Cards */}
@@ -152,10 +186,14 @@ export default function Growth() {
                   whileHover={{ y: -6, scale: 1.01 }}
                   className="h-full rounded-3xl bg-white border border-gray-100 shadow-md hover:shadow-lg p-6"
                 >
-                  <div className="text-4xl mb-3">{serviceData.emoji || "📈"}</div>
+                  <div className="text-4xl mb-3">
+                    {serviceData.emoji || "📈"}
+                  </div>
                   <h3 className="text-xl font-semibold">{serviceData.title}</h3>
                   <p className="text-gray-600 mt-2">
-                    {serviceData.blurb || serviceData.description || "Strategic growth solution"}
+                    {serviceData.blurb ||
+                      serviceData.description ||
+                      "Strategic growth solution"}
                   </p>
                   <span className="text-blue-600 font-medium inline-block mt-4">
                     Learn More →
@@ -173,7 +211,7 @@ export default function Growth() {
             <li>📈 Business strategy & positioning</li>
             <li>💬 Communication and executive presence</li>
             <li>💡 Creativity sprints for problem-solving</li>
-            <li>🧭 Mentoring & program design</li>
+            <li>🧭 Real estate–linked growth, fitout and location thinking</li>
           </ul>
         </div>
 
@@ -185,9 +223,13 @@ export default function Growth() {
             transition={{ delay: 0.8 }}
             className="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl p-8 max-w-2xl mx-auto"
           >
-            <h3 className="text-2xl font-bold mb-4">Ready to Accelerate Growth?</h3>
+            <h3 className="text-2xl font-bold mb-4">
+              Ready to Accelerate Growth?
+            </h3>
             <p className="text-lg opacity-90 mb-6">
-              Connect with our growth specialists to explore how we can help scale your business.
+              Connect with our growth specialists to explore communication,
+              creative, fitout, and location analysis support for your next
+              phase.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
