@@ -14,11 +14,8 @@ import Artist from './pages/Artist.jsx';
 import Posh from "./pages/legal/Posh";
 import Communication from "./pages/growth/Communication";
 import Creative from "./pages/growth/Creative";
-
-// Specific artist components
-import VinayChoudary from './pages/entertainment/VinayChoudary';
-import ArvindSivakumaran from './pages/entertainment/ArvindSivakumaran';
-import StevenHanulik from './pages/entertainment/StevenHanulik';
+import Fitout from "./pages/growth/Fitout";
+import RealEstateAnalysis from "./pages/growth/RealEstateAnalysis";
 
 // ✅ Import the GA tracking hook
 import usePageTracking from "./usePageTracking";
@@ -38,23 +35,24 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
+
+            {/* Entertainment */}
             <Route path="/entertainment" element={<Entertainment />} />
-
-            {/* Specific artist routes */}
-            <Route path="/entertainment/vinay-choudary" element={<VinayChoudary />} />
-            <Route path="/entertainment/arvind-sivakumaran" element={<ArvindSivakumaran />} />
-            <Route path="/entertainment/steven-hanulik" element={<StevenHanulik />} />
-
-            {/* Generic artist route as fallback */}
+            {/* Generic artist route (uses active/inactive flags) */}
             <Route path="/entertainment/:slug" element={<Artist />} />
 
+            {/* Growth */}
             <Route path="/growth" element={<Growth />} />
             <Route path="/growth/communication" element={<Communication />} />
             <Route path="/growth/creative" element={<Creative />} />
+            <Route path="/growth/fitout" element={<Fitout />} />
+            <Route path="/growth/realestate-analysis" element={<RealEstateAnalysis />} />
 
+            {/* Legal */}
             <Route path="/legal" element={<Legal />} />
             <Route path="/legal/posh" element={<Posh />} />
 
+            {/* Info */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
 
