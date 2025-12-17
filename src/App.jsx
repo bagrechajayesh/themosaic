@@ -2,62 +2,45 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 
-// Page components
+// Pages
 import Home from './pages/Home';
 import Services from './pages/Services';
-import Entertainment from './pages/Entertainment';
 import Growth from './pages/Growth';
 import Legal from './pages/Legal';
+import Rera from './pages/legal/Rera';
 import About from './pages/About';
 import Contact from './pages/Contact';
-import Artist from './pages/Artist.jsx';
-import Posh from "./pages/legal/Posh";
-import Communication from "./pages/growth/Communication";
-import Creative from "./pages/growth/Creative";
-import Fitout from "./pages/growth/Fitout";
-import RealEstateAnalysis from "./pages/growth/RealEstateAnalysis";
 
-// ✅ Import the GA tracking hook
-import usePageTracking from "./usePageTracking";
+// Growth detail pages
+import Fitout from './pages/growth/Fitout';
+import RealEstateAnalysis from './pages/growth/RealEstateAnalysis';
+
+// Analytics
+import usePageTracking from './usePageTracking';
 
 export default function App() {
   return (
     <BrowserRouter>
-      {/* ✅ Place hook INSIDE the BrowserRouter */}
       <PageTracker />
-
       <div className="flex flex-col min-h-screen">
-        {/* Header / Navbar */}
         <Header />
-
-        {/* Page content */}
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
 
-            {/* Entertainment */}
-            <Route path="/entertainment" element={<Entertainment />} />
-            {/* Generic artist route (uses active/inactive flags) */}
-            <Route path="/entertainment/:slug" element={<Artist />} />
-
             {/* Growth */}
             <Route path="/growth" element={<Growth />} />
-            <Route path="/growth/communication" element={<Communication />} />
-            <Route path="/growth/creative" element={<Creative />} />
             <Route path="/growth/fitout" element={<Fitout />} />
             <Route path="/growth/realestate-analysis" element={<RealEstateAnalysis />} />
 
             {/* Legal */}
             <Route path="/legal" element={<Legal />} />
-            <Route path="/legal/posh" element={<Posh />} />
+            <Route path="/legal/rera" element={<Rera />} />
 
             {/* Info */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
-
-            {/* Optional catch-all route */}
-            {/* <Route path="*" element={<Home />} /> */}
           </Routes>
         </main>
       </div>
@@ -65,7 +48,6 @@ export default function App() {
   );
 }
 
-// ✅ Wrapper component that calls the hook inside Router context
 function PageTracker() {
   usePageTracking();
   return null;

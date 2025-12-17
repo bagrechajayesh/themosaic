@@ -1,13 +1,12 @@
 // src/components/Header.jsx
 import React, { useEffect, useRef, useState } from 'react';
-import { Menu, X, Home, Settings, Mail, Info, Briefcase, Film, Scale, ChevronDown } from 'lucide-react';
+import { Menu, X, Home, Settings, Mail, Info, Briefcase, Scale, ChevronDown } from 'lucide-react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import logo from '../assets/logo.png';
 
 const Header = () => {
   const { pathname } = useLocation();
 
-  // Top-level mobile menu open/close
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Desktop dropdowns
@@ -21,7 +20,6 @@ const Header = () => {
   const growthMenuRef = useRef(null);
   const legalMenuRef = useRef(null);
 
-  // Close desktop dropdowns on outside click or ESC
   useEffect(() => {
     const onDocClick = (e) => {
       if (growthMenuRef.current && !growthMenuRef.current.contains(e.target)) setGrowthOpen(false);
@@ -41,7 +39,6 @@ const Header = () => {
     };
   }, []);
 
-  // Close menus on route change
   useEffect(() => {
     setIsMenuOpen(false);
     setGrowthOpen(false);
@@ -50,18 +47,11 @@ const Header = () => {
     setLegalOpenMobile(false);
   }, [pathname]);
 
-  // Optional prefetch to make submenu pages feel instant
-  const prefetchPosh = () => import('../pages/legal/Posh');
-  const prefetchComm = () => import('../pages/growth/Communication');
-  const prefetchCreat = () => import('../pages/growth/Creative');
-
   const navigationItems = [
     { name: 'Home', href: '/', icon: Home, end: true },
     { name: 'Services', href: '/services', icon: Settings },
-    // { name: 'Growth', href: '/growth', icon: Briefcase }, // handled as dropdown
-    // { name: 'Legal', href: '/legal', icon: Scale },       // handled as dropdown
     { name: 'About', href: '/about', icon: Info },
-    { name: 'Contact', href: '/contact', icon: Mail }
+    { name: 'Contact', href: '/contact', icon: Mail },
   ];
 
   const baseLink = 'flex items-center space-x-2 px-3 py-2 rounded-md transition-colors duration-200';
@@ -69,12 +59,11 @@ const Header = () => {
   const active = 'text-blue-700 bg-blue-50';
 
   const isGrowthActive = pathname.startsWith('/growth');
-  const isLegalActive = pathname.startsWith('/legal') || pathname.startsWith('/entertainment');
+  const isLegalActive = pathname.startsWith('/legal');
 
   return (
     <header className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Top row */}
         <div className="flex justify-between items-center py-4">
           {/* Brand */}
           <div className="flex items-center space-x-4">
@@ -82,13 +71,13 @@ const Header = () => {
               <div className="flex-shrink-0">
                 <img
                   src={logo}
-                  alt="The Mosaic - Professional Services"
+                  alt="The Mosaic"
                   className="h-12 w-12 sm:h-14 sm:w-14 lg:h-16 lg:w-16 object-contain"
                 />
               </div>
               <div className="flex flex-col">
                 <h1 className="text-xl sm:text-2xl font-bold text-gray-900 leading-tight">THE MOSAIC</h1>
-                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Professional Services</p>
+                <p className="text-xs sm:text-sm text-gray-600 hidden sm:block">Growth and Legal</p>
               </div>
             </Link>
           </div>
@@ -107,14 +96,14 @@ const Header = () => {
               </NavLink>
             ))}
 
-            {/* Growth dropdown (desktop) */}
+            {/* Growth dropdown */}
             <div className="relative" ref={growthMenuRef}>
               <button
                 type="button"
                 aria-haspopup="menu"
                 aria-expanded={growthOpen}
-                onMouseEnter={() => setGrowthOpen(true)}   // open on hover
-                onClick={() => setGrowthOpen((v) => !v)}   // toggle on click
+                onMouseEnter={() => setGrowthOpen(true)}
+                onClick={() => setGrowthOpen((v) => !v)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
@@ -132,7 +121,7 @@ const Header = () => {
                 <div
                   role="menu"
                   className="absolute left-0 top-full z-50 mt-2 w-80 rounded-2xl border border-gray-100 bg-white shadow-lg p-2"
-                  onMouseEnter={() => setGrowthOpen(true)} // keep open while hovering panel
+                  onMouseEnter={() => setGrowthOpen(true)}
                 >
                   <Link
                     to="/growth"
@@ -140,33 +129,30 @@ const Header = () => {
                     onClick={() => setGrowthOpen(false)}
                   >
                     <div className="font-medium">Growth overview</div>
-                    <div className="text-sm text-gray-600">Explore all growth services</div>
+                    <div className="text-sm text-gray-600">Execution-led advisory and real estate support</div>
                   </Link>
                   <hr className="my-2 border-gray-100" />
-                  {/* POSH REMOVED from Growth (was here before) */}
                   <Link
-                    to="/growth/communication"
-                    onMouseEnter={prefetchComm}
+                    to="/growth/fitout"
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
                     onClick={() => setGrowthOpen(false)}
                   >
-                    <div className="font-medium">Effective Communication Skills</div>
-                    <div className="text-sm text-gray-600">Public speaking, writing, executive presence</div>
+                    <div className="font-medium">Fitout &amp; Turnkey Execution</div>
+                    <div className="text-sm text-gray-600">BOQ, vendors, timelines and on-site checks</div>
                   </Link>
                   <Link
-                    to="/growth/creative"
-                    onMouseEnter={prefetchCreat}
+                    to="/growth/realestate-analysis"
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
                     onClick={() => setGrowthOpen(false)}
                   >
-                    <div className="font-medium">Creative Thinking Workshop</div>
-                    <div className="text-sm text-gray-600">Break ruts & solve problems with practical tools</div>
+                    <div className="font-medium">Real Estate &amp; Location Analysis</div>
+                    <div className="text-sm text-gray-600">Catchment, feasibility and site selection</div>
                   </Link>
                 </div>
               )}
             </div>
 
-            {/* Legal dropdown (desktop) — now includes Entertainment */}
+            {/* Legal dropdown */}
             <div className="relative" ref={legalMenuRef}>
               <button
                 type="button"
@@ -199,31 +185,16 @@ const Header = () => {
                     onClick={() => setLegalOpen(false)}
                   >
                     <div className="font-medium">Legal overview</div>
-                    <div className="text-sm text-gray-600">Explore legal services</div>
+                    <div className="text-sm text-gray-600">Focused support for real estate regulation</div>
                   </Link>
 
-                  {/* NEW: Entertainment under Legal */}
                   <Link
-                    to="/entertainment"
+                    to="/legal/rera"
                     className="block rounded-xl px-3 py-2 hover:bg-gray-50"
                     onClick={() => setLegalOpen(false)}
                   >
-                    <div className="font-medium">Entertainment Services</div>
-                    <div className="text-sm text-gray-600">
-                      Production, writing & creative support
-                    </div>
-                  </Link>
-
-                  <hr className="my-2 border-gray-100" />
-
-                  <Link
-                    to="/legal/posh"
-                    onMouseEnter={prefetchPosh}
-                    className="block rounded-xl px-3 py-2 hover:bg-gray-50"
-                    onClick={() => setLegalOpen(false)}
-                  >
-                    <div className="font-medium">POSH Compliance Guidance</div>
-                    <div className="text-sm text-gray-600">Policy, IC setup, awareness & audits</div>
+                    <div className="font-medium">RERA Services</div>
+                    <div className="text-sm text-gray-600">Compliance, disputes, appeals and execution</div>
                   </Link>
                 </div>
               )}
@@ -243,15 +214,12 @@ const Header = () => {
         {/* Mobile menu */}
         {isMenuOpen && (
           <div className="md:hidden space-y-1 pb-4">
-            {/* Primary links (no dropdown) */}
             {navigationItems.map(({ name, href, icon: Icon, end }) => (
               <NavLink
                 key={name}
                 to={href}
                 end={end}
-                className={({ isActive }) =>
-                  `${baseLink} w-full justify-start ${isActive ? active : idle}`
-                }
+                className={({ isActive }) => `${baseLink} w-full justify-start ${isActive ? active : idle}`}
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Icon className="h-5 w-5" />
@@ -259,7 +227,7 @@ const Header = () => {
               </NavLink>
             ))}
 
-            {/* Growth collapsible (mobile) — POSH REMOVED */}
+            {/* Growth collapsible */}
             <div className="px-2">
               <button
                 className="w-full flex items-center justify-between px-2 py-3 rounded-md hover:bg-blue-50 text-gray-700"
@@ -275,33 +243,20 @@ const Header = () => {
 
               {growthOpenMobile && (
                 <div className="ml-7 mt-1 space-y-1">
-                  <Link
-                    to="/growth"
-                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
+                  <Link to="/growth" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
                     Overview
                   </Link>
-                  {/* POSH entry removed from here */}
-                  <Link
-                    to="/growth/communication"
-                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Effective Communication Skills
+                  <Link to="/growth/fitout" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                    Fitout &amp; Turnkey Execution
                   </Link>
-                  <Link
-                    to="/growth/creative"
-                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Creative Thinking Workshop
+                  <Link to="/growth/realestate-analysis" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                    Real Estate &amp; Location Analysis
                   </Link>
                 </div>
               )}
             </div>
 
-            {/* Legal collapsible (mobile) — now includes Entertainment */}
+            {/* Legal collapsible */}
             <div className="px-2">
               <button
                 className="w-full flex items-center justify-between px-2 py-3 rounded-md hover:bg-blue-50 text-gray-700"
@@ -317,26 +272,11 @@ const Header = () => {
 
               {legalOpenMobile && (
                 <div className="ml-7 mt-1 space-y-1">
-                  <Link
-                    to="/legal"
-                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
+                  <Link to="/legal" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
                     Overview
                   </Link>
-                  <Link
-                    to="/entertainment"
-                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Entertainment Services
-                  </Link>
-                  <Link
-                    to="/legal/posh"
-                    className="block px-2 py-2 rounded-md hover:bg-blue-50"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    POSH Compliance Guidance
+                  <Link to="/legal/rera" className="block px-2 py-2 rounded-md hover:bg-blue-50" onClick={() => setIsMenuOpen(false)}>
+                    RERA Services
                   </Link>
                 </div>
               )}
