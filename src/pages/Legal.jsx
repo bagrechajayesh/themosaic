@@ -1,302 +1,124 @@
 // src/pages/Legal.jsx
+import React, { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { useServices } from "../hooks/useStaticData";
-import { Scale, FileText, Shield, Users, Building, Gavel, CheckCircle2, ArrowRight } from "lucide-react";
+import { Scale, FileText, Gavel, ShieldCheck } from "lucide-react";
+
+function Meta({ title, description, url }) {
+  useEffect(() => {
+    if (title) document.title = title;
+
+    const upsert = (name, value) => {
+      if (!value) return;
+      let el = document.head.querySelector(`meta[name="${name}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute("name", name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", value);
+    };
+
+    upsert("description", description);
+
+    if (url) {
+      let link = document.head.querySelector('link[rel="canonical"]');
+      if (!link) {
+        link = document.createElement("link");
+        link.setAttribute("rel", "canonical");
+        document.head.appendChild(link);
+      }
+      link.setAttribute("href", url);
+    }
+  }, [title, description, url]);
+
+  return null;
+}
 
 export default function Legal() {
-  const { data: servicesData, loading, error } = useServices();
-
-  // Fallback legal services if data loading fails (includes POSH)
-  const legalServices = servicesData?.legal?.services || [
-    "Entertainment Law & Contracts",
-    "Business Contract Drafting",
-    "Intellectual Property Protection",
-    "Corporate Law & Compliance",
-    "Litigation Support & Representation",
-    "Legal Consulting & Advisory",
-    "POSH Compliance & Workplace Safety",
-  ];
-
-  const legalAreas = [
-    {
-      icon: FileText,
-      title: "Contract Drafting & Negotiation",
-      description:
-        "Comprehensive contract services for entertainment, business, and creative industries.",
-      services: ["Entertainment Contracts", "Business Agreements", "Licensing Deals", "Employment Contracts"],
-    },
-    {
-      icon: Shield,
-      title: "Intellectual Property Rights",
-      description: "Protect your creative works, trademarks, and business innovations.",
-      services: ["Copyright Registration", "Trademark Protection", "Patent Applications", "IP Strategy"],
-    },
-    {
-      icon: Scale,
-      title: "Regulatory & Compliance Advisory",
-      description: "Navigate complex regulations and maintain compliance across industries.",
-      services: [
-        "Industry Compliance",
-        "Regulatory Filings",
-        "Policy Development",
-        "Risk Assessment",
-        "POSH Compliance (Policies, IC Setup, Training)",
-      ],
-    },
-    {
-      icon: Building,
-      title: "Corporate Law Services",
-      description: "Legal support for business formation, governance, and transactions.",
-      services: ["Company Formation", "Corporate Governance", "M&A Support", "Board Advisory"],
-    },
-  ];
-
-  const industries = [
-    { name: "Entertainment & Media", description: "Film, TV, music, digital content" },
-    { name: "Creative Industries", description: "Art, design, publishing, gaming" },
-    { name: "Technology Startups", description: "SaaS, apps, digital platforms" },
-    { name: "Small & Medium Business", description: "General business legal needs" },
-  ];
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-white text-gray-900 px-6 py-12 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-amber-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading legal services...</p>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-br from-amber-600 via-orange-600 to-red-600 text-white py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          {error && (
-            <div className="bg-yellow-100 border border-yellow-400 text-yellow-800 px-4 py-3 rounded mb-8">
-              <p className="text-sm">
-                <strong>Note:</strong> Using cached service data. Latest updates may not be reflected.
-              </p>
-            </div>
-          )}
+    <div className="min-h-screen bg-white text-gray-900 px-6 py-12">
+      <Meta
+        title="Legal Services | The Mosaic"
+        description="RERA-focused legal services: compliance, complaints, replies, REAT appeals, and execution strategy."
+        url="https://themosaic.pro/legal"
+      />
 
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="text-center"
-          >
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">Legal Services</h1>
-            <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto opacity-90">
-              Comprehensive legal support tailored for creative industries, growing businesses,
-              and entertainment professionals.
+      <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: 26 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.55 }}
+          className="text-center"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-50 border border-amber-200 mb-5">
+            <Scale className="h-4 w-4 text-amber-700" />
+            <span className="text-sm font-semibold text-amber-800">Legal (RERA)</span>
+          </div>
+
+          <h1 className="text-4xl md:text-5xl font-extrabold mb-6">Legal Services</h1>
+          <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
+            We focus on Real Estate Regulatory work. Practical drafting, precise strategy, and forum-ready execution for both promoters and allottees.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="grid gap-6 md:grid-cols-3 mt-10"
+        >
+          <div className="rounded-3xl bg-white border border-gray-100 shadow-md p-6">
+            <FileText className="h-7 w-7 text-amber-700 mb-3" />
+            <h3 className="text-xl font-semibold mb-2">Compliance & Advisory</h3>
+            <p className="text-gray-700 text-sm">
+              Registration, extensions, disclosures, timelines, and practical advisory around obligations and risk.
             </p>
-            <p className="text-lg mb-8 max-w-4xl mx-auto opacity-80">
-              Our legal advisory wing supports artists, creators, startups, and businesses in navigating
-              the complex landscape of intellectual property, contracts, and regulatory compliance.
+          </div>
+
+          <div className="rounded-3xl bg-white border border-gray-100 shadow-md p-6">
+            <Gavel className="h-7 w-7 text-amber-700 mb-3" />
+            <h3 className="text-xl font-semibold mb-2">RERA Proceedings</h3>
+            <p className="text-gray-700 text-sm">
+              Complaints, replies, rejoinders, evidence planning, arguments, and hearing strategy aligned to RERA practice.
             </p>
+          </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/contact"
-                className="px-8 py-4 bg-white text-amber-600 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
-              >
-                <Scale className="w-5 h-5 mr-2" />
-                Legal Consultation
-              </Link>
-              <a
-                href="https://wa.me/917276789555"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-amber-600 transition-colors inline-flex items-center justify-center"
-              >
-                Quick Questions
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+          <div className="rounded-3xl bg-white border border-gray-100 shadow-md p-6">
+            <ShieldCheck className="h-7 w-7 text-amber-700 mb-3" />
+            <h3 className="text-xl font-semibold mb-2">Appeals & Execution</h3>
+            <p className="text-gray-700 text-sm">
+              REAT appeals, pre-deposit strategy, stay planning, execution petitions, recovery, and compliance steps.
+            </p>
+          </div>
+        </motion.div>
 
-      {/* Featured: POSH */}
-      <section className="py-12 bg-amber-50 border-y border-amber-100">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-          >
-            <div>
-              <h2 className="text-2xl md:text-3xl font-bold text-amber-900">POSH Compliance Guidance</h2>
-              <p className="text-amber-900/80 mt-2 max-w-2xl">
-                End-to-end POSH programs: policy drafting, IC setup &amp; certification, awareness sessions, and compliance audits.
-              </p>
-            </div>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
+          className="mt-12 rounded-3xl bg-amber-50 border border-amber-200 p-6 md:p-8"
+        >
+          <h2 className="text-2xl font-bold mb-3">RERA Services</h2>
+          <p className="text-gray-800 mb-5">
+            For a full view of our RERA scope and typical deliverables, visit the RERA page.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              to="/legal/posh"
-              className="inline-flex items-center px-6 py-3 bg-amber-600 text-white rounded-xl font-semibold hover:bg-amber-700 transition"
+              to="/legal/rera"
+              className="px-6 py-3 bg-amber-700 text-white rounded-lg font-semibold hover:bg-amber-800 transition-colors text-center"
             >
-              Explore POSH <ArrowRight className="w-5 h-5 ml-2" />
+              View RERA Services
             </Link>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Legal Areas */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-16"
-          >
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Our Legal Expertise</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Specialized legal services designed for the unique needs of creative professionals and growing businesses
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {legalAreas.map((area, index) => {
-              const IconComponent = area.icon;
-              return (
-                <motion.div
-                  key={area.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl p-8 shadow-lg border border-amber-100 hover:shadow-xl transition-shadow"
-                >
-                  <div className="flex items-center mb-6">
-                    <div className="w-14 h-14 bg-amber-600 rounded-full flex items-center justify-center mr-4">
-                      <IconComponent className="w-7 h-7 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-gray-900">{area.title}</h3>
-                  </div>
-
-                  <p className="text-gray-700 mb-6 leading-relaxed">{area.description}</p>
-
-                  <div className="space-y-2">
-                    {area.services.map((service, idx) => (
-                      <div key={idx} className="flex items-center">
-                        <CheckCircle2 className="w-5 h-5 text-amber-600 mr-3 flex-shrink-0" />
-                        <span className="text-gray-700">{service}</span>
-                      </div>
-                    ))}
-                  </div>
-                </motion.div>
-              );
-            })}
+            <Link
+              to="/contact"
+              className="px-6 py-3 bg-white text-amber-800 rounded-lg font-semibold hover:bg-gray-50 transition-colors text-center"
+            >
+              Discuss a Matter
+            </Link>
           </div>
-        </div>
-      </section>
-
-      {/* Core Services List */}
-      <section className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Complete Legal Services</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              From contract negotiation to IP protection, we cover all your legal needs
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {legalServices.map((service, index) => (
-              <motion.div
-                key={service}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.05 }}
-                className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-gray-100"
-              >
-                <div className="flex items-center">
-                  <Gavel className="w-6 h-6 text-amber-600 mr-3" />
-                  <h3 className="text-lg font-semibold text-gray-900">{service}</h3>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Industries We Serve */}
-      <section className="py-20">
-        <div className="max-w-7xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Industries We Serve</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Specialized knowledge across key sectors
-            </p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {industries.map((industry, index) => (
-              <motion.div
-                key={industry.name}
-                initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.1 }}
-                className="bg-white rounded-xl p-6 shadow-md border border-gray-100"
-              >
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">{industry.name}</h3>
-                <p className="text-gray-600">{industry.description}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-amber-600 to-orange-600 text-white">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h2 className="text-4xl font-bold mb-6">Need Legal Support?</h2>
-            <p className="text-xl mb-8 opacity-90">
-              Whether you're launching a creative project, scaling your business, or need contract review,
-              our legal team is here to protect your interests and guide your success.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link
-                to="/contact"
-                className="px-8 py-4 bg-white text-amber-600 rounded-full font-semibold hover:bg-gray-100 transition-colors inline-flex items-center justify-center"
-              >
-                Schedule Consultation
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Link>
-              <a
-                href="https://wa.me/917276789555"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-8 py-4 bg-transparent border-2 border-white text-white rounded-full font-semibold hover:bg-white hover:text-amber-600 transition-colors inline-flex items-center justify-center"
-              >
-                Quick Legal Question
-              </a>
-            </div>
-            <p className="text-sm opacity-75 mt-6">
-              📍 Based in Mumbai, Maharashtra, India | 📧 jayesh@themosaic.pro | 📞 +91 7276789555
-            </p>
-          </motion.div>
-        </div>
-      </section>
+        </motion.div>
+      </div>
     </div>
   );
 }

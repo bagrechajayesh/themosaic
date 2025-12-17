@@ -1,38 +1,20 @@
-[
-  {
-    "id": "career-management",
-    "title": "Career Management", 
-    "description": "Strategic career planning, project selection, and long-term brand development tailored to each artist's unique vision.",
-    "icon": "briefcase"
+{
+  "growth": {
+    "title": "Growth Services",
+    "services": [
+      "Fitout & Turnkey Execution",
+      "Real Estate & Location Analysis",
+      "Catchment and Feasibility Support",
+      "Site Selection Guidance"
+    ]
   },
-  {
-    "id": "contract-negotiation",
-    "title": "Contract Negotiation",
-    "description": "Expert contract negotiation ensuring fair compensation and favorable terms for film, TV, publishing, and digital media projects.", 
-    "icon": "file-text"
-  },
-  {
-    "id": "content-development", 
-    "title": "Content Development",
-    "description": "Collaborative development of original content, from initial concept through production, connecting artists with the right partners.",
-    "icon": "lightbulb"
-  },
-  {
-    "id": "network-building",
-    "title": "Network Building", 
-    "description": "Leveraging our extensive network of producers, publishers, and executives to create meaningful professional relationships.",
-    "icon": "users"
-  },
-  {
-    "id": "public-relations",
-    "title": "Public Relations",
-    "description": "Strategic public relations and marketing support to build and maintain a strong professional presence in the industry.",
-    "icon": "megaphone"
-  },
-  {
-    "id": "opportunity-identification",
-    "title": "Opportunity Identification",
-    "description": "Identifying and securing opportunities that align with artistic goals and career trajectory across multiple platforms.",
-    "icon": "target"
+  "legal": {
+    "title": "Legal Services",
+    "services": [
+      "RERA Advisory and Compliance",
+      "Complaints, Replies, Rejoinders",
+      "REAT Appeals",
+      "Execution and Recovery"
+    ]
   }
-]
+}

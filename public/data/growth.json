@@ -1,0 +1,16 @@
+{
+  "programs": [
+    {
+      "id": "fitout",
+      "title": "Fitout & Turnkey Execution",
+      "blurb": "BOQ, vendors, timelines, and on-site checks for retail and commercial fitouts.",
+      "emoji": "🏗️"
+    },
+    {
+      "id": "realestate-analysis",
+      "title": "Real Estate & Location Analysis",
+      "blurb": "Catchment, feasibility, and site selection support for expansion decisions.",
+      "emoji": "📍"
+    }
+  ]
+}
