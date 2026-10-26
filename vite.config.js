@@ -13,6 +13,7 @@ const __dirname = dirname(__filename);
 // - If you previously had a plugin expecting `data: ['../data/*.json']`, remove that option.
 
 export default defineConfig({
+base: '/themosaic/',
   plugins: [
     react(),
 
